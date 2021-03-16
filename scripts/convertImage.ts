@@ -53,7 +53,10 @@ async function main() {
         const imageFileName = path.basename(uri);
         const dir = filepath.replace(/\.md$/, '');
         const imageFilePath = path.join(imgDir, dir, imageFileName);
-        const relativePath = path.relative(realpath, imageFilePath);
+        const relativePath = path.relative(
+          path.dirname(realpath),
+          imageFilePath
+        );
 
         await saveFile(imageFilePath, result.data);
         toReplace.push({
