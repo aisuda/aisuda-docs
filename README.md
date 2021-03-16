@@ -13,3 +13,5 @@
     python3 -m http.server
 
 或者安装 node 的相关服务，比如 `npm -g install static-server`，然后在`根目录`运行 `static-server`
+
+或者 `npm i ` 后 `npm start`。
