@@ -74,3 +74,10 @@ app.use(function(req, res, next) {
   "location": "http://跳转登录的页面地址"
 }
 ```
+
+需要注意在新浏览器下默认会限制 cookie 跨域，所以登录后保存状态的 cookie 必须加上 `SameSite=None; Secure`，类似如下
+
+```
+Set-Cookie: session=123; SameSite=None; Secure
+```
+
