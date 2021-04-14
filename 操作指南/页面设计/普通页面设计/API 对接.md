@@ -28,10 +28,10 @@ ISUDA_DISABLE_PROXY_USER_ID: true
 - `x-isuda-appkey`
 - `x-isuda-env`
 - `x-isuda-profile-access-token`
-- `x-isuda-oauth-id`，如果开启了 oauth 登录认证的话
-- `x-isuda-oauth-access-token`，如果开启了 oauth 登录认证的话
+- `x-isuda-oauth-id`，oauth id，如果开启了 oauth 登录认证的话
+- `x-isuda-oauth-access-token`，oauth 的 access token，如果开启了 oauth 登录认证的话
 
-然后通过请求 `/openapi/profile?token={{这里用 x-isuda-oauth-access-token 返回的 token 值}}`
+然后通过请求 `/openapi/profile?token={{这里用 x-isuda-profile-access-token 返回的 token 值}}`
 就会获取以下信息。
 
 ```
