@@ -24,3 +24,5 @@ node_modules
 /package-lock.json
 /schema.json
 /npm
+
+/docs.zip
