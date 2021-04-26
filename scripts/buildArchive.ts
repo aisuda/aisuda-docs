@@ -145,8 +145,9 @@ async function loadTree(tree: ITree<PageNode>) {
       }
 
       const imageFile = match[1];
-      if (/^\.*\/*static/.test(imageFile)) {
-        const realpath = path.join(path.dirname(tree.filepath), imageFile);
+      const realpath = path.join(path.dirname(tree.filepath), imageFile);
+
+      if (realpath.startsWith('static')) {
         const exists = await fileExists(path.join(ROOT_DIR, realpath));
 
         if (exists) {
@@ -160,12 +161,12 @@ async function loadTree(tree: ITree<PageNode>) {
     }
 
     tree.contents = `---\n${[
-      `title: ${tree.title}`,
-      `description: ${tree.description}`,
-      `group: ${tree.group}`,
-      `menuName: ${tree.menuName}`,
-      `icon: ${tree.icon}`,
-      `order: ${tree.order}`
+      `title: ${tree.title || ''}`,
+      `description: ${tree.description || ''}`,
+      `group: ${tree.group || ''}`,
+      `menuName: ${tree.menuName || ''}`,
+      `icon: ${tree.icon || ''}`,
+      `order: ${tree.order ?? 0}`
     ].join('\n')}\n---\n${contents}`;
   }
 
@@ -180,7 +181,19 @@ function modifiyTree(tree: ITree<PageNode>, paths: Array<string> = []) {
   const key = tree.key || tree.menuName || tree.title;
 
   if (tree.contents) {
+    const originFilePath = tree.filepath;
     tree.filepath = paths.concat(`${key}.md`).join('/');
+
+    tree.contents = tree.contents.replace(
+      /\!\[([^\[\]]*)\]\(([^\(\)]+)\)/g,
+      (_, des, value) => {
+        const filepath = path.join(path.dirname(originFilePath), value);
+        return `![${des}](${path.relative(
+          path.dirname(tree.filepath),
+          filepath
+        )})`;
+      }
+    );
   }
 
   if (Array.isArray(tree.children)) {
