@@ -21,6 +21,7 @@ interface PageNode {
   filepath?: string;
   order?: number;
   title: string;
+  key?: string;
   description?: string;
   group?: string;
   menuName?: string;
@@ -40,6 +41,7 @@ async function main() {
   const files = await collectMDFiles();
   const tree = await buildTree(files);
   await loadTree(tree);
+  modifiyTree(tree);
   await archive(tree);
 }
 
@@ -115,7 +117,7 @@ async function _buildTree(tree: ITree<PageNode>, token: any) {
   }
 }
 
-async function loadTree(tree: ITree<PageNode>): Promise<ITree<PageNode>> {
+async function loadTree(tree: ITree<PageNode>) {
   // todo 本来这个地方应该返回一个新 tree 的，先暂时直接改好了
 
   if (tree.filepath) {
@@ -172,8 +174,20 @@ async function loadTree(tree: ITree<PageNode>): Promise<ITree<PageNode>> {
       await loadTree(item);
     }
   }
+}
 
-  return tree as any;
+function modifiyTree(tree: ITree<PageNode>, paths: Array<string> = []) {
+  const key = tree.key || tree.menuName || tree.title;
+
+  if (tree.contents) {
+    tree.filepath = paths.concat(`${key}.md`).join('/');
+  }
+
+  if (Array.isArray(tree.children)) {
+    tree.children.forEach(node => {
+      modifiyTree(node, tree.title === 'ROOT' ? [] : paths.concat(key));
+    });
+  }
 }
 
 async function archive(tree: ITree<PageNode>) {
