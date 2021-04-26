@@ -207,4 +207,5 @@ async function archive(tree: ITree<PageNode>) {
   });
 
   await writeFile(path.join(ROOT_DIR, 'docs.zip'), body);
+  console.log(`打包完成 > docs.zip`);
 }
