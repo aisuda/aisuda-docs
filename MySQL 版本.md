@@ -54,4 +54,38 @@ MySQL 版本在权限方面进行了以下调整：
 
 MySQL 版本将会是爱速搭后续唯一版本，请尽快迁移到新版本，Postgres 版本将在一个月后进入维护阶段，不再有新功能升级。
 
-将会提供一个后台定时任务，自动将之前旧版的数据迁移到新版。
+首先在以超管身份登录 MySQL 版本，进入【超管后台】，执行后台任务【从 Postgres 迁移组织架构数据】
+![image.png](./static/img/MySQL相关/image_abb23be.png)
+
+配置如下
+
+```js
+{
+  "dbUser": "xxx", // pg版数据库用户名，注意要输入正确的值
+  "dbPassword": "xxxx", // pg版数据库密码
+  "downloadAPI": "http://xxx.xxx.xxx.xxx:port/pgtomysqlapi/exportCompanyTables" //pg版导出组织架构数据的url，http://xxx.xxx.xxx.xxx:port 换成实际的服务部署地址
+}
+```
+执行完后可以从打印日志中获得各表新旧ID的对应关系，复制出来供下个任务用
+![image.png](./static/img/MySQL相关/image_abb23bf.png)
+
+然后执行后台任务【从 Postgres 全量迁移应用】配置如下
+
+```js
+{
+  "dbUser": "xxx",
+  "dbPassword": "xxxxx",
+  "downloadAPI": "http://xxx.xxx.xxx.xxx:port/pgtomysqlapi/exportApplication", //pg版导出应用数据的url
+  "mapping": { // 上一步输出的新旧ID对应关系表
+    "userIdMapping": [], //从上一步输出的 log 中获取
+    "roleIdMapping": [], //从上一步输出的 log 中获取
+    "companyIdMapping": [], //从上一步输出的 log 中获取
+    "departmentIdMapping": [], //从上一步输出的 log 中获取
+  }
+}
+```
+
+
+
+
+
