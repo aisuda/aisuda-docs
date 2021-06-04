@@ -48,7 +48,7 @@ ISUDA_DISABLE_PROXY_USER_ID: true
 
 需要解决跨域问题，比如返回跨域 header：示例如下
 
-- `Access-Control-Allow-Origin: https://suda.bce.baidu.com`，或者爱速搭部署的域名
+- `Access-Control-Allow-Origin: https://aisuda.bce.baidu.com`，或者爱速搭部署的域名
 - `Access-Control-Allow-Credentials: true`
 - `Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept`
 - `Access-Control-Allow-Methods: POST, GET, OPTIONS`
@@ -57,15 +57,17 @@ ISUDA_DISABLE_PROXY_USER_ID: true
 
 ```javascript
 // 放在所有路由前面
-app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'https://suda.bce.baidu.com');
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'https://aisuda.bce.baidu.com');
   res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');  
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
   res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
   next();
 });
 ```
-
 
 如果接口需要登录，可以在未登录的时候返回 401，内容是：
 
@@ -80,4 +82,3 @@ app.use(function(req, res, next) {
 ```
 Set-Cookie: session=123; SameSite=None; Secure
 ```
-

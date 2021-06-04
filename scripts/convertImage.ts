@@ -47,7 +47,7 @@ async function main() {
         const result = await axios.get(uri, {
           responseType: 'arraybuffer',
           headers: {
-            referer: `https://suda.bce.baidu.com/`
+            referer: `https://aisuda.bce.baidu.com/`
           }
         });
         const imageFileName = path.basename(uri);
