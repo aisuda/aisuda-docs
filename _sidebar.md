@@ -69,9 +69,9 @@
     - [配置一个表单](最佳实践/配置一个表单.md)
     - [配置一个列表](最佳实践/配置一个列表.md)
   - API对接
-    - [基础](API对接/基础.md)
-    - [API中心](API对接/API中心.md)
-    - [API编排](API对接/API编排.md)
+    - [基础](API 对接/基础.md)
+    - [API中心](API 对接/API中心.md)
+    - [API编排](API 对接/API编排.md)
   - OpenAPI
     - [介绍](OpenAPI/介绍.md)
     - [组织](OpenAPI/组织.md)
