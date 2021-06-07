@@ -5,30 +5,31 @@ API 编排功能可以通过组合的方式整合处理多个 API / 业务节点
 ### 创建和编辑
 
 在【API 中心】列表中点击【新增 API】，弹出面板选择【多接口聚合模式】，即可新增一个 API 编排
-![new](../../../static/img/API/API编排/new.png)
+![new](../static/img/API/API编排/new.png)
 
 保存后在列表中点击【多接口聚合设计】，即可进行整个 API 编排的设计
 
-![merge](../../../static/img/API/API编排/merge.png)
+![merge](../static/img/API/API编排/merge.png)
 
 点击连线上的 + 号，可添加连线所在层级的平级节点，点击节点右侧的 + 号，可添加该节点的子节点
-![add](../../../static/img/API/API编排/add.png)
+![add](../static/img/API/API编排/add.png)
 
 ### 一个简单的例子
+
 本例子将实现一个从服务端获取文章列表并对日期进行格式化后返回到前端的 API 编排
 
 添加一个 “发送 HTTP 请求” 类型的节点，在 “请求地址” 输入框中填写以下 url
 
 `https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/apiArrangeDemo/list`
 
-![http](../../../static/img/API/API编排/http.png)
+![http](../static/img/API/API编排/http.png)
 
 点击工具栏中的 “调试接口” 按钮
-![run](../../../static/img/API/API编排/run.png)
+![run](../static/img/API/API编排/run.png)
 
 在弹出框中点击右下角的 “发送请求” 按钮，等待请求执行完毕后，可以看到请求结果和运行日志
 
-![send](../../../static/img/API/API编排/send.png)
+![send](../static/img/API/API编排/send.png)
 
 可以看到当前返回的数据是包含 items 和 total 两个字段的 json 格式数据，items 列表单项中的 date 字段是以毫秒时间戳格式返回的日期
 
@@ -52,10 +53,10 @@ API 编排功能可以通过组合的方式整合处理多个 API / 业务节点
 为 “发送 HTTP 请求” 节点添加一个平级 “循环” 类型的节点，并为 “循环” 节点添加一个 “日期格式化” 子节点
 
 “循环” 节点配置如下，接口返回的数据会被统一放在全局的 output 对象中，通过 `output.xxx` 可以取到相关字段
-![loop](../../../static/img/API/API编排/loop.png)
+![loop](../static/img/API/API编排/loop.png)
 
 “日期格式化” 节点配置如下，循环节点的行为是循环执行自身子节点的逻辑
-![dateformat](../../../static/img/API/API编排/dateformat.png)
+![dateformat](../static/img/API/API编排/dateformat.png)
 
 点击发送请求，可以看到返回数据中的 date 被格式化成了 `YYYY-MM-DD HH:mm:ss` 格式
 
@@ -77,21 +78,20 @@ API 编排功能可以通过组合的方式整合处理多个 API / 业务节点
 调试完之后需要点右下角的 “确认” 按钮保存，编辑界面中的内容才会被保存到数据库中
 关于如何在页面中使用 API 编排获取数据，请看下一节
 
-### 在页面中使用 API编排
+### 在页面中使用 API 编排
 
 在页面中使用 API 编排的方式，和使用 API 中心 API 的方式完全相同，下面同样以一个简单的例子来说明
 
 新建一个普通页面，在页面中拖入一个增删改查组件
 
-勾选增删改查组件的数据拉取接口的 “来自API中心” 选项，在列表中选择之前创建的 API 编排（和单个接口 API 在同一个列表中）
+勾选增删改查组件的数据拉取接口的 “来自 API 中心” 选项，在列表中选择之前创建的 API 编排（和单个接口 API 在同一个列表中）
 
 配置字段映射，可以看到 API 编排处理返回的数据被正常展示在列表中
 
-![crud](../../../static/img/API/API编排/crud.png)
-
-
+![crud](../static/img/API/API编排/crud.png)
 
 ### 接口的调试
+
 ### 调试接口
 
 ### 查看配置源码
@@ -103,7 +103,8 @@ API 编排功能可以通过组合的方式整合处理多个 API / 业务节点
 ### 数据接口
 
 #### 发送 HTTP 请求
-最基本的 HTTP 请求发送节点，使用方法同【单个接口 API】，具体见[API中心](./API中心.md)
+
+最基本的 HTTP 请求发送节点，使用方法同【单个接口 API】，具体见[API 中心](./API中心.md)
 
 ### 执行控制
 

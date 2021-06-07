@@ -10,7 +10,7 @@ API 中心用于集中管理页面内的 API，比起直接填入 API 的方式�
 
 在开发版中左侧进入
 
-![api](../../../static/img/API/API中心/api.png)
+![api](../static/img/API/API中心/api.png)
 
 ## 签名方式
 
@@ -20,7 +20,7 @@ API 中心用于集中管理页面内的 API，比起直接填入 API 的方式�
 - JWT，将会对所有 query 及 header 及进行签名，写入 header 的 Authorization 字段中。
 - 百度云，将会对提交数据及 header 都做签名，写入 header 的 Authorization 字段中
 
-对于私有部署版本，还支持自定义签名方式，请参考「[自定义后端插件](../../../私有部署/自定义后端插件.md)」。
+对于私有部署版本，还支持自定义签名方式，请参考「[自定义后端插件](../私有部署/自定义后端插件.md)」。
 
 ## URL 地址替换
 
@@ -28,7 +28,7 @@ API 中心用于集中管理页面内的 API，比起直接填入 API 的方式�
 
 方法是首先在前端请求的时候映射 query，比如 `post:api://nicaVyNdbGmHicn5b3EKkU?id=${id}`，然后在 api 中的 url 地址填写 `http://1.1.1.1/blog/{{query.id}}`
 
-![url-var](../../../static/img/API/API中心/url-var.png)
+![url-var](../static/img/API/API中心/url-var.png)
 
 除了 `query` 来获取 query，还有以下其它变量：
 
@@ -43,13 +43,13 @@ API 中心里的提交参数、Query（URL 参数）、Header 都可以进行修
 目前参数映射有以下几种方式：
 
 1. 固定值，这个用于固定参数，比如接口需要 `type=1` 这个 query，使用如下方式：
-   ![mapping-static](../../../static/img/API/API中心/mapping-static.png)
+   ![mapping-static](../static/img/API/API中心/mapping-static.png)
 1. 字段名，用于取另一个字段的值，比如将环境变量中的 TYPE 值当作 query 中 type 的值，使用如下方式：
-   ![mapping-name](../../../static/img/API/API中心/mapping-name.png)
+   ![mapping-name](../static/img/API/API中心/mapping-name.png)
 1. 模板引擎转换，使用 [Handlebars](https://handlebarsjs.com/) 模板的结果作为值，比如提交参数中有个 type，值为 1，但对应的接口需要的值是 `1s`，需要加上个 `s`，这时就可以使用模板转换的方式，如下所示：
-   ![mapping-tpl](../../../static/img/API/API中心/mapping-tpl.png)
+   ![mapping-tpl](../static/img/API/API中心/mapping-tpl.png)
 1. 公式计算，使用爱速搭中的公式能力进行计算，将结果作为值，比如常见的四则运算。
-   ![mapping-formula.png](../../../static/img/API/API中心/mapping-formula.png)
+   ![mapping-formula.png](../static/img/API/API中心/mapping-formula.png)
 
 注意这个功能和页面中接口的「数据映射」功能类似，大部分情况下更推荐使用页面中的「数据映射」，因为它能够，但不同的是可以对 header 进行映射，并且这是后端实现的。
 
@@ -113,16 +113,16 @@ API 中心里的提交参数、Query（URL 参数）、Header 都可以进行修
 
 就需要通过「取字段」的方式提取这 3 个值到不同位置，如下图所示：
 
-![output-transform](../../../static/img/API/API中心/output-transform.png)
+![output-transform](../static/img/API/API中心/output-transform.png)
 
 ## 文件上传
 
 如果是文件上传，请在「请求格式」里设置为「文件上传」。
 
-![upload](../../../static/img/API/API中心/upload.png)
+![upload](../static/img/API/API中心/upload.png)
 
 ## 文件下载
 
 如果是文件下载接口，请开启左下角的「是文件下载」
 
-![download](../../../static/img/API/API中心/download.png)
+![download](../static/img/API/API中心/download.png)
