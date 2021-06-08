@@ -1,8 +1,6 @@
 name: build-pdf
 
-on:
-  push:
-    branches: [master]
+on: push
 
 jobs:
   build:
