@@ -25,7 +25,7 @@ jobs:
           npm i
           npm run convert
           mkdir gh-pages
-          mv doc.pdf gh-pages/
+          mv pdf.pdf gh-pages/aisuda.pdf
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:

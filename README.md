@@ -46,4 +46,4 @@
 
 爱速搭目前的客户有知名的银行及互联网公司，比如「[知乎](https://mp.weixin.qq.com/s/pi5PUUc9RXiCqdMHe4Cohw)」，商业咨询请联系邮箱 `market_isuda@baidu.com`。
 
-本文档的完整 pdf 可以从[这里](https://gitee.com/baidu/aisuda-docs/raw/gh-pages/doc.pdf)下载。
+本文档的完整 pdf 可以从[这里](https://gitee.com/baidu/aisuda-docs/raw/gh-pages/aisuda.pdf)下载。
