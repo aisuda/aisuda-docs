@@ -69,6 +69,7 @@
     - [基础](API对接/基础.md)
     - [API 中心](API对接/API中心.md)
     - [API 编排](API对接/API编排.md)
+    - [本地开发调试](API对接/本地开发调试.md)
   - OpenAPI
     - [介绍](OpenAPI/介绍.md)
     - [组织](OpenAPI/组织.md)
