@@ -10,7 +10,7 @@
 2. 下载 [MySQL](https://dev.mysql.com/downloads/mysql/)，具体取决于系统，如果是源码安装推荐下载带 `Boost Headers` 的版本，版本最小要求是 5.7，[Redis](https://redis.io/download)（可选，如果已经有安装就不需要）。
 3. 下载 aisuda 最新版本：
 
-   ```
+   ```bash
    docker run --rm -it --name aisuda registry.baidubce.com/aisuda/aisuda:1.1.13 bash
    # 新开一个命令行终端，运行如下命令将爱速搭中的代码拷贝到本地
    docker cp aisuda:/app app
@@ -27,14 +27,14 @@
    1. 确保机器上有 `gcc`，没有就安装基础编译环境 `yum group install -y "Development Tools"`。
    2. Redis，解压 `tar xzf redis*`，使用如下命令编译和启动
 
-      ```
+      ```bash
       make
       nohup src/redis-server &
       ```
 
    3. MySQL，下面是 Centos 系统下源码方式安装，也可以根据实际情况换成别的方式。
 
-   ```
+   ```bash
    yum install -y cmake openssl-devel ncurses-devel
    groupadd mysql
    useradd -r -g mysql -s /bin/false mysql
@@ -67,7 +67,7 @@
 
 创建 `start.sh` 文件，加入环境变量，参考前面的说明，但需要注意在这里的环境变量写法是类似如下：
 
-```
+```bash
 # 端口控制
 export PORT=8089
 # 下面是用于调试的选项
