@@ -26,8 +26,7 @@
    # 新开一个命令行终端，运行如下命令将爱速搭中的代码拷贝到本地
    docker cp aisuda:/app app
    ```
-   ![image](https://user-images.githubusercontent.com/13377023/123614989-71dc5c80-d837-11eb-9fa3-e241e0936177.png)
-   将这个app目录压缩后 拷贝到需要安装的机器
+   将这个copy 出来的 app目录压缩后 拷贝到需要安装的机器
 
 ## 基础依赖安装
 
