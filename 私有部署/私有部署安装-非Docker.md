@@ -107,7 +107,6 @@ export ISUDA_LICENSE=xxx
 # export CUSTOM_COMPONENT_TS_DIR=/xxx/xxx/ts4.1.2
 node app.js
 ```
-![image](https://user-images.githubusercontent.com/13377023/123615674-1d85ac80-d838-11eb-9c19-32fc50570627.png)
 
 最后通过 `bash start.sh` 运行。
 ![image](https://user-images.githubusercontent.com/13377023/123615949-5de52a80-d838-11eb-9d5a-b9c18343f91e.png)
