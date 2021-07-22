@@ -239,9 +239,23 @@ select * from blog where (TRUE OR title = ?)
 
 对日期格式进行转换，比如将时间戳转成可读的日期格式。
 
-#### js 代码
+#### JS 代码
 
 通过 js 代码的方式来对数据进行处理，用于处理一些比较复杂的数据转换场景。
+
+最简单的示例如下
+
+```javascript
+module.exports = async function(event, state) {
+  return state; /
+}
+```
+
+其中 state 是 api 编排中的全局数据，比如前面如果有个 HTTP 节点将返回结果「存入变量」到 data 下，在 JS 代码中就能通过 `state.data` 获取到这个值，然后进行二次转换。
+
+同时还能写入 `state.output` 来影响 api 聚合最终的输出结果。
+
+这段 JS 函数的返回值会替换全局数据，因此上面的例子中直接返回 `state`。
 
 ### 其他
 
