@@ -1,0 +1,30 @@
+extends: default-with-fallback-font
+font:
+  catalog:
+    Roboto:
+      normal: roboto-normal.ttf
+      italic: roboto-italic.ttf
+      bold: roboto-bold.ttf
+      bold_italic: roboto-bold_italic.ttf
+    DroidSansFallback:
+      normal: droid-sans-fallback.ttf
+      italic: droid-sans-fallback.ttf
+      bold: droid-sans-fallback.ttf
+      bold_italic: droid-sans-fallback.ttf
+    M+ 1mn:
+      normal: GEM_FONTS_DIR/mplus1mn-regular-subset.ttf
+      bold: GEM_FONTS_DIR/mplus1mn-bold-subset.ttf
+      italic: GEM_FONTS_DIR/mplus1mn-italic-subset.ttf
+      bold_italic: GEM_FONTS_DIR/mplus1mn-bold_italic-subset.ttf
+  fallbacks:
+  - DroidSansFallback
+base:
+  font-family: Roboto
+heading:
+  font-family: $base-font-family
+abstract:
+  title:
+    font-family: $heading-font-family
+sidebar:
+  title:
+    font-family: $heading-font-family

@@ -1,0 +1,23 @@
+= 调用内部接口
+
+在私有部署版本中，除了
+OpenAPI，还可以调用所有内部接口，需要注意这种用法不是官方推荐的方式，爱速搭的内部接口可能会修改。
+
+== 使用方法
+
+首先在环境变量中设置 `ISUDA_INTERNAL_API_KEY`，作为签名 key。
+
+然后对于爱速搭中的所有 `/api/xxx` 请求，都可以在 header 中加入 JWT
+签名来以某个用户的身份访问。
+
+比如要访问 `/api/user/info` 接口，使用如下 payload 进行签名：
+
+[source,json]
+----
+{
+  "email": "xxx@yyy.com"
+}
+----
+
+然后在 Header 中的 `Authorization`
+字段中加入这个签名，就可以直接访问这个地址

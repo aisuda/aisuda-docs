@@ -1,0 +1,17 @@
+## 私有部署高级功能
+
+以下功能是在私有部署版本里才有的
+
+:leveloffset: +2
+
+include::自定义登录方式.adoc[]
+
+include::自定义后端插件.adoc[]
+
+include::接入统计.adoc[]
+
+include::接管发布环境权限.adoc[]
+
+include::平台间应用同步.adoc[]
+
+:leveloffset: -2

@@ -1,0 +1,1021 @@
+除了使用爱速搭内置的组件以外，还可以通过创建自定义组价，扩充可使用的组件
+
+== 前提条件
+
+[arabic]
+. 需要对 amis 整体概念有一定的了解，可以查看
+https://baidu.gitee.io/amis/docs/concepts/schema[这里]
+. 需要有一定的 JavaScript 基础
+. 至少能够熟练使用
+https://reactjs.org/[React]、https://cn.vuejs.org/[Vue]、https://jquery.com/[jQuery]
+中任意一门框架
+
+== 基本流程
+
+现在说明一下如何创建和使用一个自定义组件
+
+=== 组件创建
+
+进入自定义组件模块，点击左上角「新增组件」按钮，填写如下组件配置：
+
+image::高级功能/自定义组件/image_884905e.png[image.png]
+
+* 组件名称：设置该自定义组件的名称
+* 组件类型：选择新建组件的类型，主要有「展示类」、「普通表单项」、「选择器表单项」、「其他」4
+类，后面文档会详细介绍
+* 组件 key：在 amis schema 配置中的 type 值
+* 框架：可选 React、Vue 和 jQuery 作为开发框架
+* 是否启用：可以选择组件是否启用
+* 说明：组件的说明，描述组件
+
+如上图填写完组件配置后，点击确认，进入组件编辑界面
+
+=== 组件代码编辑
+
+自定义组件代码核心是用 `export default` 来导出编写好的自定义组件，如下：
+
+[source,js]
+----
+import React from 'react';
+
+export default class Test extends React.Component {
+  render() {
+    return <div>这是一个 React 自定义组件</div>;
+  }
+}
+----
+
+=== 调试
+
+组件保存后会自动进入构建状态，调试按钮将禁用，当构建成功后，即可点击调试按钮，进行组件调试操作：
+
+image::高级功能/自定义组件/image_5071c4e.png[image.png]
+
+调试面板左侧为组件渲染后效果，右侧为 amis schema，可以调整右侧
+schema，动态调试组件效果。
+
+例如我们修改代码如下：
+
+image::高级功能/自定义组件/image_c83cbe2.png[image.png]
+
+我们获取 props 中的 tip 属性，然后我们在调试面板右侧，修改 amis
+schema，添加 tip 属性，可以发现组件渲染出该文本
+
+____
+修改完代码后，需要保存并构建完成后，才可以看到最新的组件效果
+____
+
+=== 组件使用
+
+在 amis schema 中，可以通过 type
+来使用自定义组件，例如上例中我们新建的组件 key 为
+`custom-hello-wolrd`，且是普通展示类，则可以通过
+`"type": "custom-hello-wolrd"` 使用该自定义组件
+
+我们新建一个测试页面，并编辑页面 schema 如下：
+
+[source,json]
+----
+{
+  "type": "page",
+  "body": {
+    "type": "custom-hello-world",
+    "tip": "是不是很棒！"
+  }
+}
+----
+
+image::高级功能/自定义组件/image_996b3ed.png[image.png]
+
+可以看到上图中自定义组件已经可以正常使用了。
+
+== 添加 npm 依赖
+
+平台支持引入在线第三方 npm 库进行辅助开发
+
+首先点击右上角依赖管理，搜索并添加最新版本的
+day.js，该插件已内置安装，因此可以直接使用：
+
+image::高级功能/自定义组件/image_e2070c7.png[image.png]
+
+我们使用展示类，并选中 React 作为开发框架，下面我们引用 day.js
+并打印一下当前时间，代码如下：
+
+[source,js]
+----
+import React from 'react';
+import dayjs from 'dayjs';
+
+export default class Test extends React.Component {
+  render() {
+    return <div>现在时间是：{dayjs().format('YYYY-DD-MM HH:mm:ss')}</div>;
+  }
+}
+----
+
+效果如下：
+
+image::高级功能/自定义组件/image_02959ca.png[image.png]
+
+____
+内置已安装的插件，都可以直接使用
+____
+
+== 开发框架
+
+平台支持 React、Vue、jQuery 作为组件的开发框架
+
+=== React（推荐）
+
+平台以及 amis 本身是基于 React 开发的，因此使用 React
+可以更好地整合开发组件
+
+==== 导出组件类
+
+核心方式是通过 `export default` 来导出组件类，从而使组件生效
+
+[source,js]
+----
+import React from 'react';
+
+export default class Test extends React.Component {
+  render() {
+    return <div>这是一个 React 自定义组件</div>;
+  }
+}
+----
+
+==== 使用 UI 组件库
+
+可以使用 npm UI 组件库，例如 https://ant.design/index-cn[Ant Design]。
+
+首先依赖管理中添加 antd 组件库，然后选择展示类，和 React
+作为开发框架，然后编写代码如下：
+
+[source,js]
+----
+import React from 'react';
+import {Button} from 'antd';
+
+// 引用 antd 样式
+import 'antd/dist/antd.css';
+
+export default class Test extends React.Component {
+  render() {
+    return (
+      <div>
+        <Button type="primary">Primary Button</Button>
+        <Button>Default Button</Button>
+        <Button type="dashed">Dashed Button</Button>
+        <br />
+        <Button type="text">Text Button</Button>
+        <Button type="link">Link Button</Button>
+      </div>
+    );
+  }
+}
+----
+
+效果如下：
+
+image::高级功能/自定义组件/image_39bb2db.png[image.png]
+
+上例中我们展示了 antd 的 Button 组件
+
+=== Vue
+
+我们下面开发一个简单的自定义组价，打印一行文本：
+
+[source,js]
+----
+export default {
+  template: '<div>这是一个 {{name}} 自定义组件</div>',
+
+  data: {
+    name: 'Vue'
+  },
+
+  methods: {
+    foo() {
+      console.log('foo');
+    }
+  },
+
+  created() {
+    this.foo();
+  }
+};
+----
+
+==== 使用第三方 UI 组件库
+
+可以使用第三方组件库，例如 https://element.eleme.io/#/zh-CN[Element-UI]
+
+首先依赖管理里添加 element-ui 组件库，然后新建组件，选择展示类组件，勾选
+Vue 作为开发框架，代码如下：
+
+[source,js]
+----
+import {Button} from 'element-ui';
+
+// 引入 element-ui的样式
+import 'element-ui/lib/theme-chalk/index.css';
+
+export default class Test {
+  template = `
+        <div>
+            <el-button>默认按钮</el-button>
+            <el-button type="primary">主要按钮</el-button>
+            <el-button type="success">成功按钮</el-button>
+            <el-button type="info">信息按钮</el-button>
+            <el-button type="warning">警告按钮</el-button>
+            <el-button type="danger">危险按钮</el-button>
+        </div>
+    `;
+
+  components = {
+    'el-button': Button
+  };
+}
+----
+
+效果如下：
+
+image::高级功能/自定义组件/image_831db4a.png[image.png]
+
+=== jQuery
+
+平台内部支持用 jQuery
+进行开发，且进行了一层简单的封装，方便用户更好的操作。下面我们创建一个简单的自定义组件，打印一行文本：
+
+[source,js]
+----
+import $ from 'jquery';
+
+export default {
+  template: `这是个`,
+
+  /**
+   * 组件挂载的时候调用
+   */
+  onMount(props) {
+    this.foo();
+  },
+
+  /**
+   * amis props 更新的时候调用
+   */
+  onUpdate(props, prevProps) {},
+
+  /**
+   * 组件销货的时候调用
+   */
+  onUnmout(props) {},
+
+  foo() {
+    // this.$root 获取当前顶级dom
+    $(this.$root).append(' jQuery 自定义组件');
+  }
+};
+----
+
+效果如下：
+
+image::高级功能/自定义组件/image_eeafa3c.png[image.png]
+
+== 获取 schema 配置的属性
+
+可以在 schema 中配置属性，然后在组件中获取，例如：
+
+=== React 中：
+
+[source,js]
+----
+import React from 'react';
+
+export default class Test extends React.Component {
+  render() {
+    const tip = this.props.tip;
+    return <div>提示文本: {tip}</div>;
+  }
+}
+----
+
+使用组件时可以配置 schema 如下：
+
+[source,json]
+----
+{
+  "type": "xxx", // 组件的 key 值
+  "tip": "这是一段提示"
+}
+----
+
+=== Vue 中：
+
+[source,js]
+----
+export default {
+  template: '<div>提示文本：{{tip}}</div>',
+
+  data: {
+    tip: '' // 需要声明一个空的值，否则可能会报错
+  }
+};
+----
+
+____
+由于该
+https://cn.vuejs.org/v2/guide/reactivity.html#%E5%A3%B0%E6%98%8E%E5%93%8D%E5%BA%94%E5%BC%8F-property[Vue
+特性]，需要在使用前声明一个空的默认值
+____
+
+效果如下：
+
+image::高级功能/自定义组件/image_79ff88d.png[image.png]
+
+=== jQuery 中
+
+[source,js]
+----
+import $ from 'jquery';
+
+export default {
+  template: `提示文本：<span id="tip"></span>`,
+
+  onMount(props) {
+    $('#tip').text(props.tip);
+  },
+
+  onUpdate(props) {
+    $('#tip').text(props.tip);
+  }
+};
+----
+
+效果如下：
+
+image::高级功能/自定义组件/image_7f43ceb.png[image.png]
+
+== 暴露的变量和方法
+
+=== render
+
+渲染器方法，可以在自定义组件中渲染已有的 amis 组件
+
+==== 适用条件
+
+* 开发框架：`React`
+* 组件类型：`展示类`、`表单项`、`选择器表单项`
+
+==== 函数签名
+
+[source,js]
+----
+(region, node, subProps) => JSX.Element;
+----
+
+* `region`：给当前组件设置一个 key
+* `node`：amis 组件的配置项
+* `subProps`：可以不填，额外的一些配置项
+
+==== 使用方法
+
+React 中:
+
+[source,js]
+----
+import React from 'react';
+
+export default class Test extends React.Component {
+  render() {
+    const {render} = this.props;
+    return (
+      <div>
+        这是一个 React 自定义组件，
+        {render('test', {
+          type: 'button',
+          label: '这是amis按钮',
+          actionType: 'dialog',
+          dialog: {
+            title: '弹框',
+            body: '这是一个弹框'
+          }
+        })}
+      </div>
+    );
+  }
+}
+----
+
+效果如下：
+
+image::高级功能/自定义组件/image_f53edc9.png[image.png]
+
+image::高级功能/自定义组件/image_d525ba0.png[image.png]
+
+=== onAction
+
+调用 amis 内置的行为，可参考
+https://baidu.gitee.io/amis/docs/components/action[行为]
+
+==== 适用条件
+
+* 开发框架：React、Vue、jQuery
+* 组件类型：展示类、表单项、选择器表单项
+
+==== 函数签名
+
+[source,js]
+----
+(event, action, ctx) => void;
+----
+
+* `event`：可忽略，传入 `null` 即可；
+* `action`：传入需要执行的行为对象配置，参考
+https://baidu.gitee.io/amis/docs/components/action[行为]；
+* `ctx`：给当前行为内传入一些数据。如果没有则传入空对象`{}`，否则会报错
+
+==== 使用方法
+
+我们来通过该方法实现：点击按钮，然后调起一个 amis 弹框。
+
+===== React 中
+
+[source,js]
+----
+import React from 'react';
+
+export default class Test extends React.Component {
+  constructor() {
+    super();
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    const onAction = this.props.onAction;
+
+    onAction(
+      null,
+      {
+        actionType: 'dialog',
+        dialog: {
+          title: '弹框',
+          body: '这是一个amis弹框'
+        }
+      },
+      {}
+    );
+  }
+
+  render() {
+    return <button onClick={this.handleClick}>调起 amis 弹框</button>;
+  }
+}
+----
+
+===== Vue 中
+
+[source,js]
+----
+export default {
+  template: '<button v-on:click="handleClick">调起 amis 弹框</button>',
+
+  data: {},
+
+  methods: {
+    handleClick() {
+      this.$emit('onAction', [
+        null,
+        {
+          actionType: 'dialog',
+          dialog: {
+            title: '弹框',
+            body: '这是一个amis弹框'
+          }
+        },
+        {}
+      ]);
+    }
+  }
+};
+----
+
+===== jQuery 中
+
+[source,js]
+----
+import $ from 'jquery';
+
+export default {
+  template: `<button id="btn">调起 amis 弹框</button>`,
+
+  onMount(props) {
+    $('#btn').click(() => {
+      props.onAction(
+        null,
+        {
+          actionType: 'dialog',
+          dialog: {
+            title: '弹框',
+            body: '这是一个amis弹框'
+          }
+        },
+        {}
+      );
+    });
+  }
+};
+----
+
+=== value 和 onChange
+
+当编写表单项类型的自定义组件时，最重要的是与 Form
+数据域的通信，而实现该通信的核心就是 value 属性和 onChange 方法
+
+==== 适用条件
+
+* 开发框架：React、Vue、jQuery
+* 组件类型：普通表单项、选择器表单项
+
+==== 使用方法
+
+核心思路是：
+
+* 拿到 props 中的 value 属性，并赋值给自定义组件内输入框
+* 监听自定义组件内输入框 change 事件或 value 值变化，如果有变化，通过
+onChange 事件，将新的 value 值同步给 amis 层
+
+下面来演示不同框架下的使用示例：
+
+===== React 中
+
+[source,js]
+----
+import React from 'react';
+
+export default class Test extends React.PureComponent {
+  constructor() {
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  // 监听 input 的 change 事件，并同步value值
+  handleChange(event) {
+    const onChange = this.props.onChange;
+    // 调用amis onChange方法，同步最新的value值
+    onChange(event.target.value);
+  }
+
+  render() {
+    // 获取 props 中的 value 属性，并赋值给input
+    const {value} = this.props;
+    return <input type="text" value={value} onChange={this.handleChange} />;
+  }
+}
+----
+
+效果如下：
+
+image::高级功能/自定义组件/image_36dda63.png[image.png]
+
+更改 input 值，可以观察表单数据域的变化。
+
+===== Vue 中
+
+[source,js]
+----
+export default {
+  // 获取 value 属性并绑定给 input 输入框
+  template: `<input type="text" v-model="value" />`,
+
+  watch: {
+    value: function (newValue, oldValue) {
+      // 通过 $emit 调用 amis 的 onChange 事件，同步 value 值
+      this.$emit('onChange', newValue);
+    }
+  }
+};
+----
+
+vue 中可以利用 watch 监听器来实现 value 同步逻辑。
+
+效果如下；
+
+image::高级功能/自定义组件/image_7423dd3.png[image.png]
+
+更改 input 值，可以观察表单数据域的变化。
+
+===== jQuery 中
+
+[source,js]
+----
+import $ from 'jquery';
+
+export default {
+  template: `<input type="text" id="input" />`,
+
+  onMount(props) {
+    // 获取 props 中 value 属性
+    $('#input').attr('value', props.value);
+
+    // 给输入框绑定 input 监听事件，同步 value 值
+    $('#input').on('input', function (e) {
+      // 调用amis的 onChange 方法
+      props.onChange(e.target.value);
+    });
+  }
+};
+----
+
+效果如下：
+
+image::高级功能/自定义组件/image_c986339.png[image.png]
+
+更改 input 值，可以观察表单数据域的变化。
+
+=== onBulkChange
+
+该方法类似于 onChange，不同点在于，它可以批量修改表单项的值。
+
+[source,js]
+----
+import React from 'react';
+
+export default class Test extends React.PureComponent {
+  constructor() {
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    const {name, other, onBulkChange} = this.props;
+    const value = event.target.value;
+    // 调用amis onChange方法，变更表单项值
+    onBulkChange({
+      [name]: value,
+      [other]: value
+    });
+  }
+
+  render() {
+    // 获取表单项 value 属性
+    const {value} = this.props;
+
+    return <input type="text" value={value} onChange={this.handleChange} />;
+  }
+}
+----
+
+例如上例中，我们实现一个：修改当前输入框，会同步修改另外一个数据框的值，具体
+schema 如下
+
+[source,json]
+----
+{
+  "type": "form",
+  "mode": "horizontal",
+  "debug": true,
+  "controls": [
+    {
+      "type": "custom-test",
+      "name": "text1",
+      "label": "text1",
+      "other": "text2"
+    },
+    {
+      "type": "text",
+      "name": "text1",
+      "label": "test2"
+    }
+  ]
+}
+----
+
+当 `text1` 变化时，获取 `other`
+属性，该属性配置的是要同步修改的另外一个数据框的 `name` 值，即
+`text2`，然后调用 `onBulkChange`，批量修改数据域值
+
+效果如下：
+
+image::高级功能/自定义组件/image_9e55c14.png[image.png]
+
+____
+vue 和 jquery 使用逻辑相同，具体使用语法方法见 onChange
+____
+
+=== options
+
+选择器表单项特有的属性，一个选择器组件总有一组选项，可以提供给用户勾选一项或多项，默认该属性为空数组
+
+==== 适用范围
+
+* 开发框架：React、Vue、jQuery
+* 组件类型：选择器表单项
+
+==== 手动配置
+
+你可以手动在 schema 中配置 options 吗，然后在组件内获取并使用，例如：
+
+[source,js]
+----
+import React from 'react';
+
+export default class Test extends React.PureComponent {
+  constructor() {
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    // 调用amis onToggle 方法，变更选择器表单项值
+    const {onToggle, options} = this.props;
+    const option = options.find(o => o.value === event.target.value);
+    onToggle(option);
+  }
+
+  render() {
+    // 获取表单项 value 和 options 属性
+    const {value, options} = this.props;
+
+    return (
+      <select value={value} onChange={this.handleChange}>
+        {options.map(option => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    );
+  }
+}
+----
+
+编辑 schema 如下：
+
+[source,json]
+----
+{
+  "type": "form",
+  "mode": "horizontal",
+  "debug": true,
+  "controls": [
+    {
+      "type": "custom-test",
+      "name": "test",
+      "label": "test",
+      "options": [
+        {
+          "label": "Option A",
+          "value": "a"
+        },
+        {
+          "label": "Option B",
+          "value": "b"
+        },
+        {
+          "label": "Option C",
+          "value": "c"
+        }
+      ]
+    }
+  ]
+}
+----
+
+这种方式和普通获取 schema 属性无区别。
+
+==== 动态加载
+
+选择器表单项可以通过配置 source
+属性，来动态拉取远程选项，然后在组件更新钩子函数中，获取拉取到的新的
+options
+
+=== setOptions
+
+可以手动调用该方法动态设置 options
+
+==== 适用范围
+
+* 开发框架：React、Vue、jQuery
+* 组件类型：选择器表单项
+
+==== 函数签名
+
+[source,js]
+----
+(options) => void;
+----
+
+* `options`：一个对象数组，里面有若干选项
+
+==== 使用方法
+
+[source,js]
+----
+import React from 'react';
+
+export default class Test extends React.PureComponent {
+  constructor() {
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  // 组件挂载时，调用 setOptions，设置 options
+  componentDidMount() {
+    const {setOptions} = this.props;
+    setOptions([
+      {
+        label: 'Option A',
+        value: 'a'
+      },
+      {
+        label: 'Option B',
+        value: 'b'
+      },
+      {
+        label: 'Option C',
+        value: 'c'
+      }
+    ]);
+  }
+
+  handleChange(event) {
+    // 调用amis onToggle 方法，变更选择器表单项值
+    const {onToggle, options} = this.props;
+    const option = options.find(o => o.value === event.target.value);
+    onToggle(option);
+  }
+
+  render() {
+    // 获取表单项 value 和 options 属性
+    const {value, options} = this.props;
+
+    return (
+      <select value={value} onChange={this.handleChange}>
+        {options.map(option => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    );
+  }
+}
+----
+
+=== selectedOptions
+
+由于
+https://baidu.gitee.io/amis/docs/components/form/options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter[拼接符-delimiter]、https://baidu.gitee.io/amis/docs/components/form/options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues[拼接值-joinvalues]、https://baidu.gitee.io/amis/docs/components/form/options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue[提取多选值-extractvalue]
+的存在，value 值格式可以是多种格式。
+
+`selectedOptions` 则永远为当前选中的值的数组形式，方便逻辑操作。
+
+==== 适用范围
+
+* 开发框架：React、Vue、jQuery
+* 组件类型：选择器表单项
+
+=== onToggle
+
+选择器表单项专用属性，类似于
+onChange，不同的是，该方法需要传入一个完整的选项对象，可以设置选项切换勾选。
+
+==== 适用范围
+
+* 开发框架：React、Vue、jQuery
+* 组件类型：选择器表单项
+
+==== 函数签名
+
+[source,js]
+----
+(option) => void;
+----
+
+* `option`：一个选项对象
+
+==== 使用方法
+
+[source,js]
+----
+import React from 'react';
+
+export default class Test extends React.PureComponent {
+  constructor() {
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    // 调用amis onToggle 方法，变更选择器表单项值
+    const {onToggle, options} = this.props;
+    const option = options.find(o => o.value === event.target.value);
+    onToggle(option);
+  }
+
+  render() {
+    // 获取表单项 value 和 options 属性
+    const {value, options} = this.props;
+
+    return (
+      <select value={value} onChange={this.handleChange}>
+        {options.map(option => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    );
+  }
+}
+----
+
+==== 与 onChange 有什么不同
+
+例如有如下 options：
+
+[source,json]
+----
+{
+  "options": [
+    {
+      "label": "Option A",
+      "value": "a"
+    },
+    {
+      "label": "Option B",
+      "value": "b"
+    },
+    {
+      "label": "Option B",
+      "value": "b"
+    }
+  ]
+}
+----
+
+* 例如使用 `onChange`，当第一次勾选了 `Option A` 后，调用
+`onChange`，同步表单项 value 值为`"a"`，当用户再次点击
+`Option A`，该表单项的值仍然是 `"a"`，因为又一次重复设置了 value；
+* 而使用 `onToggle`，当第一次勾选了 `Option A` 后，用户再次点击
+`Option A`后，将会取消勾选 Option A 选项，value 值将为空字符串`""`
+
+*在配置 `multiple:true`，选择器支持多选时：*
+
+第一次选中 `Option A`, `value` 值为 `"a"`，点击 `Option C` 时，value
+会变成 `"a,c"`，再次点击 `Option C` ，则 `value` 会变为`"a"`
+
+=== onToggleAll
+
+切换全选和全不选
+
+==== 适用范围
+
+* 开发框架：React、Vue、jQuery
+* 组件类型：选择器表单项
+* 表达项 schema 需配置 `multiple: true`
+
+==== 使用方法
+
+[source,js]
+----
+import React from 'react';
+
+export default class Test extends React.PureComponent {
+  constructor() {
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSelectAll = this.handleSelectAll.bind(this);
+  }
+
+  handleChange(event) {
+    // 调用amis onToggle 方法，变更选择器表单项值
+    const {onToggle, options} = this.props;
+    const option = options.find(o => o.value === event.target.value);
+    onToggle(option);
+  }
+
+  handleSelectAll() {
+    const {onToggleAll} = this.props;
+    onToggleAll();
+  }
+
+  render() {
+    // 获取表单项 value 和 options 属性
+    const {value, options} = this.props;
+
+    return (
+      <>
+        <select value={value} onChange={this.handleChange}>
+          {options.map(option => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        <button onClick={this.handleSelectAll}>全选</button>
+      </>
+    );
+  }
+}
+----
+
+效果如下：
+
+image::高级功能/自定义组件/image_5ba83ae.png[image.png]

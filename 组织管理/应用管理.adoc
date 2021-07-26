@@ -1,0 +1,21 @@
+== 应用管理
+
+[arabic]
+. 点击导航中的【应用】，进入应用管理页面。
+
+image::组织管理/应用管理/image_514c3df.png[image.png]
+
+[arabic, start=2]
+. 应用管理页面支持通过新创建的方式新建应用。
+
+image::组织管理/应用管理/image_df361a3.png[image.png]
+
+[arabic, start=3]
+. 或通过导入应用包完成新建，原应用包内的模型、页面等资源都会保留。
+
+image::组织管理/应用管理/image_749e1c8.png[image.png]
+
+[arabic, start=4]
+. 每个应用都可以直接进入编辑环境或进入应用设置，也可以便捷进行删除操作。
+
+image::组织管理/应用管理/image_a431df0.png[image.png]

@@ -1,0 +1,109 @@
+= 介绍
+
+爱速搭提供了开放 API，可以自动化控制爱速搭中的功能，方便进行系统对接。
+
+== 安全校验
+
+所有接口调用都需要进行签名校验，目前有两种级别的签名：
+
+* 组织级别，可以访问组织下所有应用的 API
+* 应用级别，只能访问某个应用的 API
+
+在使用之前，首先需要设置公钥
+
+== 设置组织级别公钥
+
+访问组织「设置」页面，可以自己生成 RSA256
+密钥对，或者使用平台的自动生成功能。
+
+image::API/介绍/image_9420660.png[image.png]
+
+点击自动生成的链接，会生成 `xxx-key.zip` 文件，请将其中 `xxx.pub`
+的内容复制到这里，然后保存。
+
+=== 组织级别签名
+
+签名算法使用 RS256，密钥是刚才下载的密钥，签名内容是
+`"companyKey": "xxx"`，其中 `xxx`
+是组织的短名字，可以在「设置」页面查到：
+
+image::API/介绍/xx_b525a02.png[key.png]
+
+在发送 API 的请求中，需要有个 `Authorization` 的头，签名生成算法基于
+JWT，参考以下示例：
+
+JavaScript 示例，使用
+https://github.com/auth0/node-jsonwebtoken[jsonwebtoken] 进行签名。
+
+[source,javascript]
+----
+const jwt = require('jsonwebtoken');
+const fs = require('fs');
+const privateKey = fs.readFileSync('company-xxx.key'); // 刚才下载的密钥，注意这里用的是密钥，不是公钥
+const token = jwt.sign({companyKey: 'xxx'}, privateKey, {algorithm: 'RS256'}); // 将这里的 xxx 改成签名查到的短名字
+
+// 接下来是发送 http 请求，在 header 中增加 Authorization，内容是「Bearer 」加上之前的生成的 token，这个 token 应该在每次提交的时候生成，为了避免重放攻击，默认 jwt 中会有 iat 时间戳，爱速搭会拒绝超过 1 分钟的签名
+header['Authorization'] = 'Bearer ' + token;
+----
+
+JWT
+支持绝大多数语言，具体可以在https://jwt.io/#libraries-io[这里]查找相关语言的库，比如
+java 可以用 https://github.com/auth0/java-jwt[java-jwt]，使用其中的
+RSA256 算法。
+
+== 设置应用级别公钥
+
+应用级别公钥在应用的「应用设置」页面，同样也提供了自动生成功能。
+
+image::API/介绍/image_4d3a04a.png[image.png]
+
+=== 应用级别签名
+
+签名算法使用 RS256，密钥是刚才下载的密钥，签名内容是
+`"companyKey": "xxx", "appKey": "yyy"`，其中 `xxx`
+是组织的短名字，看前面的介绍，而 `yyy`
+是应用短名字，获取方法是在应用设置页：
+
+image::API/介绍/image_72d856f.png[Screen Shot.png]
+
+在发送 API 的请求中，需要有个 `Authorization` 的头，签名生成算法基于
+JWT，参考以下示例：
+
+JavaScript 示例，使用
+https://github.com/auth0/node-jsonwebtoken[jsonwebtoken] 进行签名。
+
+[source,javascript]
+----
+const jwt = require('jsonwebtoken');
+const privateKey = fs.readFileSync('app-xxx.key'); // 这里要用应用级别的密钥
+const token = jwt.sign({companyKey: 'xxx', appKey: 'yyy'}, privateKey, {
+  algorithm: 'RS256'
+}); // 请修改这里的 xxx 和 yyy
+
+header['Authorization'] = 'Bearer ' + token;
+----
+
+JWT
+支持绝大多数语言，具体可以在https://jwt.io/#libraries-io[这里]查找相关语言的库，比如
+java 可以用 https://github.com/auth0/java-jwt[java-jwt]，使用其中的
+RSA256 算法。
+
+== 发送提交参数
+
+对于 POST 类型的接口，提交参数需要使用 *JSON* 格式。
+
+以 axios 为例
+
+[source,javascript]
+----
+axios({
+  method: 'post',
+  url: '/openapi/xxx',
+  hreaders: {
+    Authorization: 'Bearer xx' // 前面生成的签名
+  },
+  data: {
+    name: 'isuda'
+  }
+});
+----
