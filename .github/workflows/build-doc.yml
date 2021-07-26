@@ -8,15 +8,19 @@ jobs:
   adoc_build:
     runs-on: ubuntu-18.04
     name: build-docs
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+
     - name: Get build container
       id: adocbuild
       uses: tonynv/asciidoctor-action@master
       run: sh build.sh
+
     - name: Deploy docs to ghpages
       uses: peaceiris/actions-gh-pages@v3
+      if: ${{ github.ref == 'refs/heads/main' }}
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_branch: gh-pages
