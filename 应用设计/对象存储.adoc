@@ -1,0 +1,51 @@
+== 对象存储管理
+
+想要实现应用之间上传文件存储位置的隔离？可以尝试在应用下添加对象存储资源，并在应用下相应的上传配置中选择想要的对象存储资源即可。
+
+=== 编辑对象存储
+
+可以在应用开发的【对象存储】页面进行对象存储资源的新增、修改、删除、设置默认对象存储、启用/禁用操作。
+
+image::https://user-images.githubusercontent.com/80095014/124880705-24af7600-e001-11eb-95ef-b469e33d3433.png[image]
+
+==== 新增对象存储
+
+image::https://user-images.githubusercontent.com/80095014/124879095-6fc88980-dfff-11eb-8ccd-76abf2d858e5.png[image]
+
+新增对象存储时可以配置如下信息： *
+名称：取一个好记的对象存储资源的名称吧 *
+类型：支持`百度云 BOS`、`S3 协议`、`阿里云 OSS` *
+是否启用：可以设置该对象存储资源是否生效 *
+Endpoint：对象存储资源的`Endpoint`，例如：智能云BOS
+https://bj.bcebos.com * Bucket名称：对象存储资源的桶名称 *
+AK/SK：对象存储资源的`AK、SK`，AK/SK会加密存储，用户不用担心安全性问题 *
+访问域名：如果配置了访问域名，文件上传的值也就变成了带此域名的访问地址，此场景只适合公共读资源
+* 存储目录：用来指定存储的位置，不填写，默认存储到 `files` 目录下 *
+存储路径规则：默认为`{{date:YYYY-MM}}/{{md5}}{{ext}}`，例如：2021-04/b0b1e02fc6d8a4b73286de1a226047c7.png，当前不支持修改
+
+==== 编辑对象存储
+
+image:https://user-images.githubusercontent.com/80095014/124880898-588a9b80-e001-11eb-96ec-d024e39e16ef.png[image]
+如果想修改AK/SK，可以打开`AK/SK`右侧的开关进行修改。
+
+==== 设置默认对象存储
+
+一般新增的首个对象存储会自动设置为`默认对象存储`，默认对象存储会作为文件上传、图片上传等静态资源上传存储的默认存储位置。
+image:https://user-images.githubusercontent.com/80095014/124881412-e4042c80-e001-11eb-9642-bc1e5a916392.png[image]
+
+==== 删除对象存储
+
+删除对象存储的时候，将检测该对象存储是否存在上传记录，如果存在上传记录将不允许被删除。
+image:https://user-images.githubusercontent.com/80095014/124881501-ff6f3780-e001-11eb-9e49-952d1ba6a6c7.png[image]
+
+=== 配置资源上传
+
+爱速搭平台中，可以为具备资源上传的页面组件和数据模型字段配置对象存储。
+
+==== 数据模型
+
+image::https://user-images.githubusercontent.com/80095014/124882041-93410380-e002-11eb-9142-763687f4a065.png[image]
+
+==== 页面组件
+
+image::https://user-images.githubusercontent.com/80095014/124882192-b7044980-e002-11eb-8621-75156e25374f.png[image]

@@ -1,0 +1,27 @@
+= 本地开发调试
+
+爱速搭中的 api 地址默认会经过代理，如果希望连本机地址，需要这两步操作：
+
+[arabic]
+. 填入接口地址时需要在前面加上 `raw:`，比如
+`raw:http://localhost:8080/api`
+. 这个接口需要返回跨域 header，包括如下这些
+* `Access-Control-Allow-Origin: https://suda.bce.baidu.com`，或者爱速搭部署的域名
+* `Access-Control-Allow-Credentials: true`
+* `Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept`
+* `Access-Control-Allow-Methods: POST, GET, OPTIONS`
+
+如果本地接口不方便返回前面提到的跨域
+header，可以使用第三方的工具代理来自动添加，下面介绍一个工具的使用方法：
+
+[arabic]
+. 首先通过 `npm install -g local-cors-proxy` 命令安装，如果没有 `npm`
+命令需要本机先安装 https://nodejs.org/[Node]。
+. 使用
+`lcp --proxyUrl http://localhost:8080 --proxyPartial '' --origin 'https://aisuda.bce.baidu.com' --credentials`
+命令启动代理。其中 `8080` 是本地服务的端口，如果是私有部署，请将其中的
+`https://aisuda.bce.baidu.com` 改成实际部署地址。
+. lcp 程序默认监听 `8010`
+端口，因此在爱速搭中填入的是这个端口的地址，比如
+`raw:http://localhost:8010/api`，后面的路径就是本地 8080
+服务之前所使用的路径。

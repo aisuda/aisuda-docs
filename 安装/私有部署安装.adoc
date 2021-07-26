@@ -1,0 +1,296 @@
+= 私有部署安装
+
+爱速搭支持私有部署，您可以部署在自己的内网，私有部署版本具备 SaaS 版本的所有功能，但只有一个组织。
+
+== 环境需求
+
+需要您的机器安装 `Docker`，推荐版本为`18.09`及以上，爱速搭可以运行在单机 Docker 环境上，如果需要集群化、高可用，可以使用 Docker 自带的 swarm 或者 k8s。
+
+Docker 的安装建议参考官方文档，可以安装在 https://docs.docker.com/install/linux/docker-ce/centos/[Centos]、https://docs.docker.com/install/linux/docker-ce/ubuntu/[Ubuntu]、https://docs.docker.com/docker-for-windows/install/[Windows]、https://docs.docker.com/docker-for-mac/install/[Mac]等系统上。
+
+生产环境推荐使用 Linux 操作系统，最小机器配置建议是 4 核 4G 内存。
+
+=== 安装 Docker
+
+以 Mac 上安装 Docker 为例，打开 https://docs.docker.com/docker-for-mac/install/[这里]。
+
+==== 下载安装包
+
+image::私有部署/docker/123589768-4730da80-d81c-11eb-99ea-49eed7e05c93.png[]
+image::私有部署/docker/123589785-4e57e880-d81c-11eb-90e6-b30dcf170bf0.png[]
+
+==== 安装&启动
+
+image::私有部署/docker/123610551-48b9cd00-d833-11eb-8119-fc63c6ea525d.png[]
+image::私有部署/docker/123610572-4c4d5400-d833-11eb-8c1c-79afd9874ad1.png[]
+通过 Docker 桌面可以看到全部为启动状态：
+image::私有部署/docker/123610680-638c4180-d833-11eb-82e5-9cdf6eb627a3.png[]
+
+== 单机版本
+
+单机版本依赖 `docker-compose`，在 Mac 和 Windows 下的 Docker
+程序会自带，如果是 Linux 则需要执行以下命令来安装：
+
+....
+sudo curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+....
+
+首先选择一个目录作为爱速搭的安装目录，在这个目录下创建两个空目录
+`mysql-data` 和 `redis-data`，然后创建 `docker-compose.yml` 文件，
+`docker-compose.yml` 文件内容如下：
+
+____
+版本变更请查看 <<_更新记录>>
+____
+
+[source,yaml]
+----
+version: '3'
+services:
+  web:
+    image: registry.baidubce.com/aisuda/aisuda:1.1.17
+    restart: always
+    ports:
+      - '8090:8085'
+    environment:
+      # 数据库用户名
+      ISUDA_DB_USER: root
+      # 数据库密码，这个密码需要和下面 mysql 镜像里的一致
+      ISUDA_DB_PASSWORD: 'Q39sTi0i^9'
+      ISUDA_DB_NAME: aisuda
+      ISUDA_DB_HOST: db
+      ISUDA_DB_PORT: 3306
+
+      # id 加密密钥，建议修改
+      ISUDA_HASHID_SALT: 'aisuda'
+
+      # 数据库加密密钥，建议修改
+      ISUDA_ENCRYPT_KEY: 'B224AD82C6206D4DD0D49B3A17BD894D8EA2DC671372BA6B270D3B3AD599A45C'
+
+      # redis 地址和端口
+      ISUDA_REDIS_HOST: redis
+      ISUDA_REDIS_PORT: 6379
+      # ISUDA_REDIS_PASSWORD redis 密码，
+      # ISUDA_REDIS_ENABLE_READY_CHECK 是否开启 ready check 默认不开
+
+      # 邮件 smtp 地址，用于发验证码
+      ISUDA_EMAIL_HOST:
+      # 邮件 smtp 端口，比如 25
+      ISUDA_EMAIL_PORT:
+      # 邮件用户名和密码
+      ISUDA_EMAIL_USER:
+      ISUDA_EMAIL_PASS:
+      # 如果是 465 之类的 ssl 端口，请取消下面的注释
+      # ISUDA_EMAIL_SECURE: 1
+      # 邮件显示的发件人地址
+      ISUDA_EMAIL_FROM: 'xxx@xxx.com'
+
+      # 邮件 API，如果配置就优先使用，用于没有 smtp 的场景，细节请参考这篇文档后面的介绍
+      # ISUDA_EMAIL_API: http://xxx.com/emailapi
+      # 邮件 API 的签名密钥
+      # ISUDA_EMAIL_API_PASSWORD:
+
+      # license（可选，如果不填则需要在安装时提供）
+      ISUDA_LICENSE:
+
+      # 百度统计（可选）
+      BAIDU_TONGJI_CODE:
+
+      # Google Analytics（可选）
+      GA_MEASUREMENT_ID:
+
+      # 文件存储配置（可选）
+      # DRIVER 支持 bos 或 s3
+      ISUDA_FILE_STORAGE_DRIVER:
+      ISUDA_FILE_STORAGE_REGION:
+      ISUDA_FILE_STORAGE_BUCKET:
+      ISUDA_FILE_STORAGE_AK:
+      ISUDA_FILE_STORAGE_SK:
+
+      # ES 操作日志 和 api 转发日志相关
+      # es 服务地址
+      ISUDA_ES_URL:
+      # es 服务帐号密码
+      ISUDA_ES_USERNAME:
+      ISUDA_ES_PASSWORD:
+
+      # 索引文件名（可选）
+      # ISUDA_SITE_LOG_INDEX: suda-log-{{date:YYYY-MM}}
+
+      # 是否开启站点日志记录
+      ISUDA_SITE_LOG_ENABLED:
+
+      # 默认 api 转发日志不存储 发送体内容，如果开启了，将会存储 json 和 普通表单数据 内容体
+      ISUDA_SITE_LOG_SAVE_REQUSET_PAYLOAD:
+
+      # 平台级别超级管理员邮箱（可选）
+      # ISUDA_PLATFORM_ADMINISTRATORS: aa@aa.com,bb@bb.com
+
+      # 登录相关
+      # 默认的登录方式，加入配置成 oauth 表示只启用 oauth 登录方式，多个登录方式请用逗号隔开如：email,weixin,oauth
+      AUTH_ENABLED_LIST: email
+
+      # oauth 登录相关
+
+      # oauth 授权接口地址
+      ISUDA_OAUTH_AUTHORIZE_URL:
+
+      # oauth token 获取接口地址
+      ISUDA_OAUTH_TOKEN_URL:
+
+      # oauth clientId
+      ISUDA_OAUTH_CLIENT_ID:
+
+      # oauth clientSecret
+      ISUDA_OAUTH_CLIENT_SECRET:
+
+      # oauth scope 默认为 email
+      ISUDA_OAUTH_SCOPE:
+
+      # oauth 获取 用户 profile 的接口地址
+      ISUDA_OAUTH_INFO_URL:
+
+      # 默认为 id, 假如你的 oauth 返回的 profile 中，id 为 user_id 请填写 user_id
+      ISUDA_OAUTH_ID_FIELD:
+
+      # 默认为 name, 假如你的 oauth 返回的 profile 中，用户名为 user_name 请填写 user_name
+      ISUDA_OAUTH_NAME_FIELD:
+
+      # 邮箱地址字段，如果你的 oauth 中返回了邮箱地址，请配置，如果没有可以不配置
+      ISUDA_OAUTH_EMAIL_FIELD:
+
+      # 邮箱后缀，当你的 oauth 没有返回邮箱地址，同时又不想有绑定邮箱这个动作，可以配置这个比如：baidu.com，这样会自动根据用户名拼接个假邮箱地址。
+      ISUDA_OAUTH_EMAIL_SUFFIX:
+
+      # 默认退出是 爱速搭的退出页，如果配置了，会跳转到对应 oauth 的退出页面。
+      ISUDA_OAUTH_LOGOUT_URL:
+
+      # 默认不开启，开启后，应用导出将剔除敏感信息，但是意味着导入的时候你还需要额外去补填这些信息
+      ISUDA_DISABLE_EXPORT_SENSITIVE_INFO:
+
+      # 默认不开启，开启后，应用发布的时候，用开发环境权限覆盖运行态资源权限
+      ISUDA_OVERWRITE_RUNTIME_ACL:
+
+      # 默认不开启，开启后，发布环境的权限通过接口配置的接口返回的权限点进行控制
+      ISUDA_TAKEOVER_RUNTIME_ACL:
+
+      # 是否是 https，爱速搭的访问地址是 https 需要增加这个配置项
+      # ISUDA_IS_HTTPS: true
+
+      # 下面是自定义组件所需的 npm 本地镜像
+      # NPM_REGISTRY: https://registry.npm.taobao.org
+      # NPM_SEARCH: https://www.npmjs.com/search/suggestions
+
+  db:
+    image: registry.baidubce.com/aisuda/mysql:8
+    restart: always
+    command:
+      [
+        'mysqld',
+        '--character-set-server=utf8mb4',
+        '--collation-server=utf8mb4_unicode_ci',
+        '--skip-character-set-client-handshake',
+        '--default-authentication-plugin=mysql_native_password',
+        '--max-allowed-packet=1073741824',
+        '--sort-buffer-size=512K',
+        '--max-connections=4096'
+      ]
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 'Q39sTi0i^9'
+
+  redis:
+    image: registry.baidubce.com/aisuda/redis:5
+    restart: always
+    command: ['redis-server', '--appendonly', 'yes']
+    volumes:
+      - ./redis-data:/data
+----
+
+建议修改其中的 `MYSQL_ROOT_PASSWORD`、`ISUDA_ENCRYPT_KEY`。
+
+创建完文件后使用 `docker-compose up` 命令来启动，如下：
+image::私有部署/docker/123591119-29fd0b80-d81e-11eb-9bed-3685201795ed.png[]
+
+然后通过 `docker ps` 查看 mysql 所在的容器 id，使用
+`docker exec -it xxx` 进入 MySQL 容器。
+image::私有部署/docker/123592056-56fdee00-d81f-11eb-899e-d40adf455512.png[]
+
+进入 MySQL 容器后使用 `mysql -uroot -p'Q39sTi0i^9'` 命令访问
+MySQL，注意密码改成对应的。
+image::私有部署/docker/123610963-af3eeb00-d833-11eb-98a5-96886f39b6c6.png[]
+
+然后使用
+`CREATE DATABASE aisuda CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`
+命令来创建数据库。
+image::私有部署/docker/123592788-4732d980-d820-11eb-9165-3789fef4e0b6.png[]
+
+通过`show databases`可以查看当前的数据库。
+
+image::私有部署/docker/123593818-8ca3d680-d821-11eb-923c-389c64055882.png[]
+
+接着访问 http://localhost:8090/ 就可以看到安装界面，按照引导执行。
+image::私有部署/docker/123610212-f9739c80-d832-11eb-9172-8e34bc04e095.png[]
+image::私有部署/docker/123610273-055f5e80-d833-11eb-84c5-1ffdc344f24b.png[]
+image::私有部署/docker/123610285-08f2e580-d833-11eb-9572-015c5efb4028.png[]
+image::私有部署/docker/123610342-14dea780-d833-11eb-833b-7ef6b40451f1.png[]
+
+如果确认没问题，可以用 ctrl+c 关闭，然后使用 `docker-compose up -d`
+来后台持续运行。
+image::私有部署/docker/123611230-f88f3a80-d833-11eb-9e81-8df13c8be687.png[]
+
+== 试用 license
+
+可以试用到 10 月 9 日的 license。
+
+....
+N59dBig9FdhNrfVjbLem9yCW2VwJ1ls27NFMu0YX/ziZjd+kXYld9lmS+iQp6CCQitqNsN1Rbd7+nKLU0fCIq5w28cRzbUQERMOY1TZ/9kr4w05DCZHHcSxJT38rDvsYMx6FPqsPBi8L64PJ8Giz9D0z+wegWNtC4wqX7dssD3rCs8Hsj4nD+eUhnU9smiJoxZnGi8N+RceBiRRjG9ya5Kj1avyp8q9lu+bdPVa0AyaAOPki/idp18C3c5oTN6Ht
+....
+
+== 如何在无网环境安装？
+
+首先是 Docker，Windows 和 Mac 可以通过上面的安装包离线安装，而 Linux
+需要https://docs.docker.com/engine/install/binaries/#install-daemon-and-client-binaries-on-linux[参考这里]下载二进制文件来安装。
+
+其次是
+Docker-Compose，参考https://docs.docker.com/compose/install/[文档]，主要是在有网环境下，在https://github.com/docker/compose/releases[这里]下载对应环境的二进制文件。
+
+接下来需要将镜像也保存为文件，方法是找一台能联网且有 Docker
+的机器，运行如下命令：
+
+[source,bash]
+----
+docker pull registry.baidubce.com/aisuda/aisuda:1.1.17
+docker save -o suda.tar registry.baidubce.com/aisuda/aisuda:1.1.17
+docker save -o mysql.tar registry.baidubce.com/aisuda/mysql:8
+docker save -o redis.tar registry.baidubce.com/aisuda/redis:5
+----
+
+将这三个文件上传到需要安装的服务器上，执行如下命令：
+
+[source,bash]
+----
+docker load -i suda.tar
+docker load -i mysql.tar
+docker load -i redis.tar
+----
+
+同样通过类似的 docker load -i amis.tar 命令来加载。
+
+amis 镜像内部端口是 8888。
+
+== 分布式版本
+
+爱速搭支持多实例部署，目前不限制实例数量，需要先装好 mysql 和
+redis，然后通过环境变量连到远程的 mysql/redis 节点。
+
+== 无 Docker 环境下的安装
+
+参考link:私有部署安装-非Docker.md[这里]。
+
+=== 后续版本升级
+
+如果有版本升级，需要先停服务，运行
+`./node_modules/.bin/pm2 kill`，然后清空目录，复制新的爱速搭版本。

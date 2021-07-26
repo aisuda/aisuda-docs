@@ -1,0 +1,23 @@
+== 创建数据模型
+
+数据模型指的是数据库中的「表」，因此在创建数据模型前需要先link:连接数据源.md[连接数据源]。
+
+[arabic]
+. 进入应用后，点击左侧**【数据模型】**，进入**【列表模式】**，点击页面右侧**【新建模型】**。
+
+image::快速入门/创建数据模型/create-model.png[image.png]
+
+[arabic, start=2]
+. 创建之后在页面列表中就能看到新建的数据模型。
+
+image::快速入门/创建数据模型/create-model-list.png[image.png]
+
+[arabic, start=3]
+. 点击模型名称或右侧的「模型设计」进入模型设计
+
+image::快速入门/创建数据模型/model-design.png[image.png]
+
+[arabic, start=4]
+. 点击「字段集合」进入字段编辑页面，这里的字段就对应着表中的字段。
+
+image::快速入门/创建数据模型/add-field.png[image.png]

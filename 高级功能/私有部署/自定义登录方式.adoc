@@ -1,0 +1,99 @@
+= 自定义登录方式
+
+目前爱速搭私有版本支持两种方式来对接自己的登录系统。要启用自定义登录方式，需要修改
+`ISUDA_AUTH_ENABLED_LIST` 环境变量。
+
+比如：
+
+....
+ISUDA_AUTH_ENABLED_LIST=email,oauth
+....
+
+表示同时开启邮箱登录和 oauth 登录，具体登录相关配置请接着往下看。
+
+== oauth 2.0 登录
+
+首先请确保 `ISUDA_AUTH_ENABLED_LIST` 中包含了 oauth。
+
+然后配置
+
+* `ISUDA_OAUTH_AUTHORIZE_URL` 为 oauth 授权地址，通常是 sso
+登录地址如：`http://xxx.com/login`
+* `ISUDA_OAUTH_TOKEN_URL` 为 oauth 获取 token 的 api 地址。
+* `ISUDA_OAUTH_CLIENT_ID` 为 oauth clientId
+* `ISUDA_OAUTH_CLIENT_SECRET` 为 oauth clientSecret
+* `ISUDA_OAUTH_SCOPE` 默认值为 email
+* `ISUDA_OAUTH_INFO_URL` 获取用户资料的接口地址。
+
+这里 profile 接口返回需要特别说明一下。预期返回结果如下
+
+[source,json]
+----
+{
+  "id": "oauth Id",
+  "name": "用户名",
+  "displayName": "用户展示名称",
+  "email": "邮箱地址"
+}
+----
+
+如果 profile 不是返回的这个格式，可以通过以下配置来适配。
+
+* `ISUDA_OAUTH_ID_FIELD` 默认为 id 可以修改为如：`user.id`
+* `ISUDA_OAUTH_NAME_FIELD` 默认为 name 同样可以变量路径。
+* `ISUDA_OAUTH_DISPLAY_FIELD` 默认为 displayName 同样可以变量路径。
+* `ISUDA_OAUTH_EMAIL_FIELD` 默认为 email 同样可以变量路径。
+
+如果 profile 不能返回 email
+则会进入绑定邮箱环节，如果想跳过这个环节，可以配置
+
+* `ISUDA_OAUTH_EMAIL_SUFFIX` 为 xxx.com 这样，邮箱机会用 name 和
+这个值拼接一个。
+
+在申请 oauth 账号的时候如果需要配置回调地址，请填写
+`http://{{你的域名}}/auth/oauth/callback`。
+
+如果退出的时候想同时退出 sso 服务，可以配置:
+
+* `ISUDA_OAUTH_LOGOUT_URL` 为 http://xxx.com/logout
+
+== 第三方登录
+
+推荐使用 oauth 2.0 方式登录系统，但是如果你们现有的 sso 并不支持 oauth
+登录，那么这个简单版登录方式也是可以考虑的。
+
+主要有以下配置
+
+* `ISUDA_THIRD_AUTH_AUTHORIZE_URL`
+为第三方登录地址如：http://xxx.com/login?service=\{\{callback}}
+* `ISUDA_THIRD_AUTH_PROFILE_URL`
+获取用户资料接口如：http://xxx.com/profile?code=\{\{code}}
+* `ISUDA_THIRD_AUTH_CODE_FIELD` 默认为 code 可以配置成其他如 ticket
+* `ISUDA_THIRD_AUTH_LOGOUT_URL`
+退出地址，如果希望爱速搭退出的时候把第三方登录也退出的话。
+
+登录流程为：
+
+没有登录直接跳配置的第三方登录地址，跳转过去会指定 callback 地址，请通过
+`{{callback}}` 指定，登录成功后，返回 /auth/third?code=xxxxx 然后将 code
+作为参数请求配置的 `ISUDA_THIRD_AUTH_PROFILE_URL`
+api，返回用户信息即可完成登录。
+
+如果返回 401 code_expired 则自动重新跳转登录
+
+如果正常返回
+
+[source,json]
+----
+{
+  "email": "xxx@xx.com",
+  "username": "",
+  "displayName": "",
+  "avatar": "",
+  "phone": ""
+}
+----
+
+则会完成登录，完成跳转
+
+其他情况则会报错。profile 只有 email 是必须的，其他都可选。

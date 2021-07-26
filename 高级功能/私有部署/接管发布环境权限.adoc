@@ -1,0 +1,105 @@
+= 接管发布环境权限
+
+== 配置方法
+
+[arabic]
+. 配置环境变量 `ISUDA_TAKEOVER_RUNTIME_ACL=true`
+开启可配置发布环境权限接管；
+. 在 API 中心，新建一个用于接管权限的接口；
+. 来到 `应用 -> 应用设置 -> 权限接管接口`
+选中创建权限托管接口，可配置权限点缓存时间用于调试。
+
+=== 组织级别权限接管接口
+
+该接口主要在工作台，返回用户有权限的应用以及入口。
+
+配置方法：
+
+[arabic]
+. 来到组织界面，设置 -> 基本设置 -> 权限接管 API
+. 配置权限接管接口：例如：`http://xxxxxxx:8888/api/acl-com`，默认为 GET
+请求
+. 选择自定义签名，需提前注册好自定义签名；
+. 添加签名环境变量。
+
+当用户访问工作台时，爱速搭会 GET
+请求该接口，同样经过代理，会附上爱速搭中的
+header，详情，这里是组织级别的代理，所以部分应用相关信息会没有，这里主要用到的是下面
+header：
+
+* `x-isuda-oauth-id`：oauth id，如果启用了 oauth 登录的话
+
+接口返回示例：
+
+[source,json]
+----
+{
+  "apps": [
+    {
+      "key": "d44c728c77ec", // 应用的短路径key
+      "envs": ["qa", "latest"] // 当前应用可访问的环境，可选 dev、qa、sandbox、latest
+    },
+    {
+      "key": "d660498b0a1a", // 应用的短路径key
+      "envs": ["qa"] // 当前应用可访问的环境，可选 dev、qa、sandbox、latest
+    }
+  ]
+}
+----
+
+正确返回后，工作台会显示返回的应用以及对应的环境入口。
+
+=== 应用级别权限接管接口
+
+访问发布环境应用中，涉及到权限判断时，会请求选中的该 API
+中心接口，因为经过了代理，因此请求中会附上爱速搭中的
+header，link:../%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97/%E9%A1%B5%E9%9D%A2%E8%AE%BE%E8%AE%A1/%E6%99%AE%E9%80%9A%E9%A1%B5%E9%9D%A2%E8%AE%BE%E8%AE%A1/API%E5%AF%B9%E6%8E%A5.md#%E4%BB%A3%E7%90%86[详情]；这里主要用到以下三个：
+
+* `x-isuda-appkey`，应用短路径
+* `x-isuda-oauth-id`，oauth id，如果启用了 oauth 登录的话
+* `x-isuda-env`，应用环境，开发环境是 `dev`，也可能是
+`qa`、`sandbox`或者`latest`
+
+接口返回参数：
+
+[source,json]
+----
+{
+  "perms": [
+    "app.877f21d1cc5a.read", // 应用发布环境的访问权限
+    "app.877f21d1cc5a.edit", // 应用发布环境的管理权限
+    "app.877f21d1cc5a.dataManage", // 应用发布环境的数据管理
+
+    "page.4Qyw7pEgGd.read", // 页面的可读权限
+    "page.4Qyw7pEgGd.print", // 比如添加了一个自定义权限标识为「print」
+    "page.4Qyw7pEgGd.export", // 比如添加了一个自定义权限标识为「export」
+
+    // 页面内api的调用权限
+    "page.4Qyw7pEgGd.api.2iowtJ2eJUyBxj6HTSxSjW.call", // "2iowtJ2eJUyBxj6HTSxSjW" 为页面内 api 的 key
+    "page.4Qyw7pEgGd.api.muEb9u9DdpbaGiFMhWqdjm.    call" // "muEb9u9DdpbaGiFMhWqdjm" 为页面内 api 的 key
+  ]
+}
+----
+
+返回参数格式：
+
+* `perms`：页面权限点数组，权限点格式是：
+** 页面的权限点：`「page:pageId:aclValue」`
+*** `pageId`：页面的 hashId
+*** `aclValue`：具体的权限能力点，例如：read、print、api:xxx:call 等
+** 应用的权限点：`「app:appKey:aclValue」`
+*** `appKey`：app 的 key
+*** `aclValue`：具体的权限能力点，例如：read、edit、dataManage
+
+备注：
+
+[arabic]
+. 支持以 `.` 为分隔符
+. 支持 `*` 通配符的能力 类似 `app:877f21d1cc5a:*`
+会递归，甚至可以支持根节点
+. 权限点和描述必须要有
+
+可以通过 openApi:
+
+* 获取页面相关权限信息：link:../OpenAPI/%E5%BA%94%E7%94%A8.md[接口]
+* 获取应用下可配置权限点：link:../OpenAPI/%E5%BA%94%E7%94%A8.md#%E8%8E%B7%E5%8F%96%E6%9F%90%E4%B8%AA%E5%BA%94%E7%94%A8%E5%8F%AF%E9%85%8D%E7%BD%AE%E7%9A%84%E6%9D%83%E9%99%90%E7%82%B9[接口]

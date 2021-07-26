@@ -1,0 +1,16 @@
+== 创建应用
+
+[arabic]
+. 在导航栏中点击**应用**进入应用管理页面，点击其中的**新增应用**按钮。
+
+image::快速入门/创建应用/create-app.png[image]
+
+[arabic, start=2]
+. 填写应用基本信息后，点击**确认**。
+
+image::快速入门/创建应用/create-app-name.png[image]
+
+[arabic]
+. 创建应用完成后，点击**开发**，进入应用开发环境。
+
+image::快速入门/创建应用/app-dev.png[image]

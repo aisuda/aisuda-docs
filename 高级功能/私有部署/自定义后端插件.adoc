@@ -1,0 +1,51 @@
+= 自定义后端插件
+
+对于**私有部署**版本，爱速搭支持系统级别后端插件，目前只有扩展签名功能，后续还将不断扩充
+
+== 扩展方法
+
+扩展的原理是在 `/app/app/amis-saas/addOn` 目录下放自己的代码，可以通过
+docker 挂载 volumes 的方式来映射本地文件目录，也可以通过将 configs
+映射到这个目录下文件的方式。
+
+爱速搭在启动的时候，会查找 `/app/app/amis-saas/addOn` 目录下的所有 `.js`
+文件，然后进行加载，如果还依赖了第三方库，可以在这个目录下 `npm i`
+安装第三方库。
+
+如果因为代码原因导致插件加载失败，需要查看 docker 输出的报错信息。
+
+== 扩展签名算法
+
+用于「API 中心」的接口新增签名算法，方法是在前面提到的映射目录中新增一个
+`xx.js` 文件，内容如下：
+
+[source,javascript]
+----
+const addon = require('../auto-flow/addOn');
+
+/**
+ * 自定义签名算法的实现，它可以在发送前修改任意
+ *
+ * @parm httpInput 所有请求参数，它有 4 个属性，url、query、header、body，除了 url 之外都是对象的形式，可以对其中的任意值进行修改
+ * @parm env 环境变量，在应用设置中设置的环境变量，可以用来获取密钥，这样在开发和发布时就能选择不同的方式了
+ * @parm logger 日志，用于调试，在「API 中心」的列表页中点击「调试」
+ */
+async function mySignature(httpInput, env, logger) {
+  logger.debug(env); // 还支持 info/warn/error，这个日志会显示在调试中
+  httpInput.header['myHeader'] = 'my'; // 新增一个 header
+  delete httpInput.query['search']; // 删除某个 query
+  const key = env.ak; // 获取环境变量中的密钥
+  return httpInput; // 最后返回 httpInput
+}
+
+// 注册自定义签名
+addon.registerSignature({
+  name: '我的签名', // 前端展现的名称
+  type: 'mySignature', // 签名的系统标识名（可以不填）
+  func: mySignature // 签名实现函数
+});
+----
+
+然后在「API 中心」创建的时候，就可以选择这个签名了，如下图所示：
+
+image::高级功能/自定义后端插件/image_585c248.png[image.png]

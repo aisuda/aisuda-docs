@@ -1,0 +1,75 @@
+= 组织API
+
+组织的接口需要使用组织的密钥才能访问
+
+== 获取应用列表
+
+URL：`GET /openapi/company/{组织短名字}/app`
+
+返回内容：
+
+[source,json]
+----
+{
+  "status": 0,
+  "msg": "",
+  "data": [
+    {
+      "id": "grOwVRwNXG", // 应用 id
+      "key": "92a54", // 短名字
+      "logo": "", // logo 图片地址
+      "name": "名称",
+      "description": "描述",
+      "isDraft": false // 如果从未发布就是 true
+    }
+  ]
+}
+----
+
+== 创建应用
+
+URL: `POST /openapi/company/{组织短名字}/app`
+
+提交的内容格式
+
+[source,json]
+----
+{
+  "owner": "xxxxx@xx.com", //「必填」 所属用户的邮箱地址
+  "name": "AppName", //「必填」 应用名字
+  "key": "xxx", // 应用短名字，弄个好记的名字，决定应用访问路径
+  "description": "", // 描述
+  "logo": "http://xxxx.com/xxx.png" // 应用 logo
+}
+----
+
+== 批量导入组织架构
+
+URL：`POST /openapi/company/{组织短名字}/department/import`
+
+提交内容格式：
+
+[source,json]
+----
+{
+  "departments": [
+    {"部门编号": "0", "部门名称": "测试专用组织根部门", "上级部门编号": ""},
+    {"部门编号": "1", "部门名称": "测试专用组织子部门", "上级部门编号": "0"}
+  ],
+  "users": [
+    {
+      "用户名": "张三",
+      "邮箱": "zhangsan@xxx.com",
+      "手机": "12345678901",
+      "昵称": "张三",
+      "所属部门编号": "0",
+      "是否经理": "1",
+      "第三方登录方式": "xxx",
+      "第三方用户ID": "123456"
+    }
+  ]
+}
+----
+
+提交的字段有两个，一个是部门信息，它是树形结构的，如果上级部门编号是空则代表最顶级部门；另一个是用户列表，其中第三方登录方式主要用于
+`oauth`。
