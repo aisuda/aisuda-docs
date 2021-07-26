@@ -16,7 +16,8 @@ jobs:
     - name: Get build container
       id: adocbuild
       uses: tonynv/asciidoctor-action@master
-      run: sh build.sh
+      with:
+          program: "sh build.sh"
 
     - name: Deploy docs to ghpages
       uses: peaceiris/actions-gh-pages@v3
