@@ -44,12 +44,12 @@ ____
 版本变更请查看 <<_更新记录>>
 ____
 
-[source,yaml]
+[source,yaml,subs="attributes"]
 ----
 version: '3'
 services:
   web:
-    image: registry.baidubce.com/aisuda/aisuda:1.1.17
+    image: registry.baidubce.com/aisuda/aisuda:{docker-image-version}
     restart: always
     ports:
       - '8090:8085'
@@ -260,10 +260,10 @@ Docker-Compose，参考https://docs.docker.com/compose/install/[文档]，主要
 接下来需要将镜像也保存为文件，方法是找一台能联网且有 Docker
 的机器，运行如下命令：
 
-[source,bash]
+[source,bash,subs="attributes"]
 ----
-docker pull registry.baidubce.com/aisuda/aisuda:1.1.17
-docker save -o suda.tar registry.baidubce.com/aisuda/aisuda:1.1.17
+docker pull registry.baidubce.com/aisuda/aisuda:{docker-image-version}
+docker save -o suda.tar registry.baidubce.com/aisuda/aisuda:{docker-image-version}
 docker save -o mysql.tar registry.baidubce.com/aisuda/mysql:8
 docker save -o redis.tar registry.baidubce.com/aisuda/redis:5
 ----
