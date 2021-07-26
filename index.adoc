@@ -5,8 +5,7 @@ aisuda@baidu.com
 :imagesdir: img
 :source-highlighter: rouge
 :doctype: book
-
-:version: 1.1.17
+:docker-image-version: 1.1.17
 
 :leveloffset: +1
 
