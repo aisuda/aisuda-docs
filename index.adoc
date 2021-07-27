@@ -67,6 +67,6 @@ include::最佳实践/配置一个列表.adoc[]
 
 include::OpenAPI/OpenAPI.adoc[]
 
-include::高级功能/私有部署/index.adoc[]
+include::高级功能/index.adoc[]
 
 include::更新记录.adoc[]
