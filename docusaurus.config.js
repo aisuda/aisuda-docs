@@ -42,7 +42,7 @@ module.exports = {
           type: 'doc',
           docId: 'OpenAPI/介绍',
           position: 'left',
-          label: 'OpenAPI'
+          label: 'API'
         },
         {
           href: 'https://aisuda.bce.baidu.com/',
