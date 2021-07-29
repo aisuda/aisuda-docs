@@ -1,5 +1,0 @@
-= 高级功能
-
-include::页面外部嵌入/页面外部嵌入.adoc[]
-
-include::私有部署/index.adoc[]
