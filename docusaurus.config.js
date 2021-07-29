@@ -76,5 +76,16 @@ module.exports = {
         }
       }
     ]
+  ],
+  plugins: [
+    [
+      require.resolve('@easyops-cn/docusaurus-search-local'),
+      {
+        indexDocs: true,
+        indexPages: true,
+        hashed: true,
+        language: ['zh']
+      }
+    ]
   ]
 };
