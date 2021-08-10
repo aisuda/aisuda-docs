@@ -79,12 +79,12 @@ module.exports = {
   ],
   plugins: [
     [
-      require.resolve('@easyops-cn/docusaurus-search-local'),
+      require.resolve('@cmfcmf/docusaurus-search-local'),
       {
+        indexBlog: false,
         indexDocs: true,
-        indexPages: true,
-        hashed: true,
-        language: ['zh']
+        indexDocSidebarParentCategories: 2,
+        language: 'zh'
       }
     ]
   ]

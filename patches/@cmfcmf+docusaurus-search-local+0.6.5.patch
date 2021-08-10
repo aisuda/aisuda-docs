@@ -1,0 +1,13 @@
+diff --git a/node_modules/@cmfcmf/docusaurus-search-local/lib/server/index.js b/node_modules/@cmfcmf/docusaurus-search-local/lib/server/index.js
+index 61c5013..3ce6de1 100644
+--- a/node_modules/@cmfcmf/docusaurus-search-local/lib/server/index.js
++++ b/node_modules/@cmfcmf/docusaurus-search-local/lib/server/index.js
+@@ -177,7 +177,7 @@ export const tokenize = (input) => lunr.tokenizer(input)
+                     }
+                     return { route, url, type: "blog" };
+                 }
+-                if (indexDocs && urlMatchesPrefix(route, docsBasePath)) {
++                if (indexDocs) {
+                     return { route, url, type: "docs" };
+                 }
+                 if (indexPages) {
