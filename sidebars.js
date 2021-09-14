@@ -57,7 +57,7 @@ module.exports = {
       ],
       应用管理: [
         '应用管理/应用设置',
-        '应用管理/应用权限设置',
+        '应用管理/应用权限设置'
         // '发布管理'
       ],
       对象存储: ['对象存储/对象存储管理']
@@ -93,5 +93,5 @@ module.exports = {
     '快速入门/权限管理'
   ],
 
-  openAPI: ['OpenAPI/介绍', 'OpenAPI/组织', 'OpenAPI/应用']
+  openAPI: ['OpenAPI/介绍', 'OpenAPI/组织', 'OpenAPI/应用', 'OpenAPI/数据模型']
 };
