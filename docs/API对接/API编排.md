@@ -262,9 +262,9 @@ select * from blog where (TRUE OR title = ?)
 最简单的示例如下
 
 ```javascript
-module.exports = async function(event, state) {
-  return state; /
-}
+module.exports = async function (event, state) {
+  return state;
+};
 ```
 
 其中 state 是 api 编排中的全局数据，比如前面如果有个 HTTP 节点将返回结果「存入变量」到 data 下，在 JS 代码中就能通过 `state.data` 获取到这个值，然后进行二次转换。
