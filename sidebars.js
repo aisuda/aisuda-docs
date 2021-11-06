@@ -69,6 +69,7 @@ module.exports = {
   privateImage: [
     '私有部署/私有部署安装',
     '私有部署/更新记录',
+    '私有部署/运维及故障处理',
     {
       type: 'category',
       label: '私有部署独有功能',
