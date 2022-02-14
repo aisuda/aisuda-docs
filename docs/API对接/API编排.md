@@ -205,7 +205,7 @@ INSERT INTO blog (title, content) VALUES {{ input.blogs }}
 
 ```
 module.exports = async function (event, state) {
-  state.blogs = [state.input.blogs.map(item => [item.name, item.content])],
+  state.blogs = [state.input.blogs.map(item => [item.title, item.content])];
   return state;
 };
 ```
