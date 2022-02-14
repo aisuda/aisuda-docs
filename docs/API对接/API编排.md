@@ -192,7 +192,22 @@ select * from blog where title in ({{ input.titles}})
 如果是二维数组，比如下面的 `input.blogs` 是 `[['标题1', '内容1'], ['标题2', '内容2']]`，使用如下写法
 
 ```
-insert into blog values {{ input.blogs }}
+INSERT INTO blog VALUES {{ input.blogs }}
+```
+
+或者指明字段
+
+```
+INSERT INTO blog (title, content) VALUES {{ input.blogs }}
+```
+
+如果数据是对象数组形式，需要先转成二维数组，可以用 js 节点操作，比如
+
+```
+module.exports = async function (event, state) {
+  state.blogs = [state.input.blogs.map(item => [item.name, item.content])],
+  return state;
+};
 ```
 
 如果要实现有参数时才查询，可以用如下写法
