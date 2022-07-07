@@ -45,13 +45,13 @@ module.exports = {
           label: 'API'
         },
         {
-          href: 'https://aisuda.bce.baidu.com/',
-          label: '爱速搭官网',
+          href: '/',
+          label: '返回首页',
           position: 'right'
         },
         {
-          href: 'https://baidu.gitee.io/amis',
-          label: 'amis 官网',
+          href: '/amis/',
+          label: 'amis 文档',
           position: 'right'
         }
       ]
