@@ -7,7 +7,7 @@ module.exports = {
   tagline: '爱速搭文档',
   url: 'https://baidu.gitee.io/',
   baseUrl: '/aisuda-docs/',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   favicon: '/img/favicon.png',
   organizationName: 'aisuda', // Usually your GitHub org/user name.
