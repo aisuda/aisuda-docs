@@ -7,7 +7,7 @@ module.exports = {
   tagline: '爱速搭文档',
   url: 'https://baidu.gitee.io/',
   baseUrl: '/aisuda-docs/',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   favicon: '/img/favicon.png',
   organizationName: 'aisuda', // Usually your GitHub org/user name.
@@ -45,13 +45,13 @@ module.exports = {
           label: 'API'
         },
         {
-          href: 'https://aisuda.bce.baidu.com/',
-          label: '爱速搭官网',
+          href: '/',
+          label: '返回首页',
           position: 'right'
         },
         {
-          href: 'https://baidu.gitee.io/amis',
-          label: 'amis 官网',
+          href: '/amis/',
+          label: 'amis 文档',
           position: 'right'
         }
       ]
