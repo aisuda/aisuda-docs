@@ -18,13 +18,12 @@ API 中心用于集中管理页面内的 API，比起直接填入 API 的方式�
 
 ## 签名方式
 
-目前支持三种签名方式：
+目前支持四种签名方式：
 
 - HTTP 帐号密码。
 - JWT，将会对所有 query 及 header 及进行签名，写入 header 的 Authorization 字段中。
 - 百度云，将会对提交数据及 header 都做签名，写入 header 的 Authorization 字段中
-
-对于私有部署版本，还支持自定义签名方式，请参考「[自定义后端插件](../私有部署/自定义后端插件.md)」。
+- 第三方签名，将用户信息发送给另外一个接口，返回 token 字段，此 token 写入 header 的 Authorization 字段中。这个 token 将被缓存 15 分钟左右。
 
 ## URL 地址替换
 
