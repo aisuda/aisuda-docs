@@ -50,7 +50,7 @@ module.exports = {
           position: 'right'
         },
         {
-          href: '/amis/',
+          href: 'https://aisuda.bce.baidu.com/amis/',
           label: 'amis 文档',
           position: 'right'
         }
