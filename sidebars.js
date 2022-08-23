@@ -49,6 +49,7 @@ module.exports = {
       ],
       API对接: [
         'API对接/基础',
+        'API对接/系统API',
         'API对接/本地开发调试',
         'API对接/API中心',
         'API对接/API编排'
