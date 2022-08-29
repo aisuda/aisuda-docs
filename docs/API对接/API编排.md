@@ -228,9 +228,18 @@ select * from blog where (FALSE OR title = ?)
 select * from blog where (TRUE OR title = ?)
 ```
 
-如果输出的内容是 sql 关键字或列名，需要使用 `#{{}}` 来包裹
+如果输出的内容是 sql 关键字或列名，不能使用之前的语法，比如
 
+```sql
+# 这个写法的错误的
+select * from blog order by {{title}}
 ```
+
+原因是这个写法会变成 `select * from blog order by ?`，而通过变量替换后，就变成了 `select * from blog order by "title"`
+
+如果要输出关键字或列名需要使用 `#{{}}` 来包裹
+
+```sql
 select * from blog order by #{{title}}
 ```
 
