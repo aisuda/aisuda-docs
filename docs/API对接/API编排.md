@@ -228,6 +228,36 @@ select * from blog where (FALSE OR title = ?)
 select * from blog where (TRUE OR title = ?)
 ```
 
+如果输出的内容是 sql 关键字或列名，需要使用 `#{{}}` 来包裹
+
+```
+select * from blog order by #{{title}}
+```
+
+在这种写法下会原样输出内容（会滤掉分号、双引号、逗号等特殊字符，但不会去掉空格），如果 title 的内容是 a，输出结果就是
+
+```
+select * from blog order by a
+```
+
+如果 title 内容是个输出，比如 `['a', 'b']`，输出结果将会是
+
+```
+select * from blog order by a, b
+```
+
+因为它会去掉引号，所以不能直接用在变量的场景，比如
+
+```
+select * from blog where title = #{{query.title}}
+```
+
+需要自己加引号，但不推荐用这个语法来实现动态内容，下面的场景最好还是用 `{{}}`
+
+```
+select * from blog where title = "#{{query.title}}"
+```
+
 ### 执行控制
 
 #### 分支
