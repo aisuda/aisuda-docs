@@ -240,7 +240,7 @@ select * from blog order by #{{title}}
 select * from blog order by a
 ```
 
-如果 title 内容是个输出，比如 `['a', 'b']`，输出结果将会是
+如果 title 内容是个数组，比如 `['a', 'b']`，输出结果将会是
 
 ```
 select * from blog order by a, b
