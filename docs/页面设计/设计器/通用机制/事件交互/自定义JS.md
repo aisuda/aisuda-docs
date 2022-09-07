@@ -1,0 +1,38 @@
+通过编写JavaScript脚本来实现动作逻辑。
+
+```javascript
+const myMsg = '我是自定义JS';
+
+doAction({
+  actionType: 'toast',
+  args: {
+    msg: myMsg
+  }
+});
+```
+
+### 动作说明
+
+配置参数说明如下：
+
+| 参数	| 说明	|
+|  ----  | ----  |
+| script	| 自定义 JS 脚本代码|
+
+script内参数说明如下：
+
+| 参数	| 类型 | 说明	|
+|  ----  | ----  | ----  |
+| doAction	| Function | 动作执行函数，可以执行所有类型的[动作](https://baidu.github.io/amis/zh-CN/docs/concepts/event-action)|
+| context	| ListenerContext | 当前组件实例，context.props可以获取该组件相关属性	|
+| event	| RendererEvent| 事件对象，通过event.data可以获取事件上下文，通过调用 setData()、stopPropagation()、preventDefault()可以分别实现事件上下文设置、动作干预、事件干预	|
+
+### 操作步骤
+按以下步骤在页面设计器进行动作配置：
+1. 打开动作配置弹窗后，选择其他 > 自定义JS
+2. 输入JS代码，确认提交。
+
+![image](/img/页面设计/设计器/通用机制/配置事件交互/8941333a3fea4319267e2ae52.png)
+
+### 典型示例
+参考amis文档[自定义JS](https://baidu.github.io/amis/zh-CN/docs/concepts/event-action#%E8%87%AA%E5%AE%9A%E4%B9%89-js)
