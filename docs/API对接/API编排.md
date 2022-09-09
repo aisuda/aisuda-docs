@@ -127,7 +127,17 @@ sendMail(...)
 
 新建一个普通页面，在页面中拖入一个增删改查组件
 
-勾选增删改查组件的数据拉取接口的 “来自 API 中心” 选项，在列表中选择之前创建的 API 编排（和单个接口 API 在同一个列表中）
+勾选增删改查组件的数据拉取接口的 “API 中心” 选项
+
+![select-apicenter](/img/API/API编排/select-apicenter.png)
+
+然后点选输入框右侧的按钮，显示 API 中心列表弹框
+
+![select-apicenter-btn](/img/API/API编排/select-apicenter-btn.png)
+
+在列表中选择之前创建的 API 编排（和单个接口 API 在同一个列表中）
+
+![select-apicenter-dialog](/img/API/API编排/select-apicenter-dialog.png)
 
 配置字段映射，可以看到 API 编排处理返回的数据被正常展示在列表中
 
