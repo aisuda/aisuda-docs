@@ -16,11 +16,11 @@ npm（推荐 8.3.1，或更新版本）
 [amis-widget](https://github.com/aisuda/amis-widget)（amis-editor自定义组件注册器，支持react和vue2.0技术栈，用于注册自定义渲染器和插件）
 
 #### 3、开发amis组件扩展包关键步骤
-##### 3.1 全局安装 
+##### 步骤1：全局安装 amis-widget-cli
 amis-widget-cli  
 yarn global add amis-widget-cli 或者  npm i -g amis-widget-cli  
 
-##### 3.2 创建一个NPM组件扩展包  
+##### 步骤2：创建一个NPM组件扩展包  
 amis init -e=amis -m=copy  或  amis init --editor=amis --mode=copy
 
 目前已提供7种自定义组件类型：
@@ -33,13 +33,13 @@ amis init -e=amis -m=copy  或  amis init --editor=amis --mode=copy
 
 备注：自定义组件目录说明请见 [vue-custom-widget-template#目录说明](https://github.com/aisuda/vue-custom-widget-template#%E7%9B%AE%E5%BD%95%E8%AF%B4%E6%98%8E)
 
-##### 3.3 开发一个自定义组件
+##### 步骤3：开发一个自定义组件
 
 使用vue2.0开发amis自定义组件，请查看vue2.0官方使用文档（vue语法）：https://v2.cn.vuejs.org/v2/guide/index.html。
 
 ![image](/img/NPM组件扩展包/amis-npm-widget/vue-custom-widget-template-code.png)
 
-##### 3.4 注册为一个爱速搭可用的amis自定义组件  
+##### 步骤4：注册为一个爱速搭可用的amis自定义组件  
 
 使用 amis-widget 中的 registerRendererByType 方法注册为爱速搭可识别的自定义组件：  
 ```
@@ -58,7 +58,7 @@ registerRendererByType(InfoCard, {
 });
 ```
 
-##### 3.5 为amis自定义组件设置基本属性和可配置项  
+##### 步骤5：为amis自定义组件设置基本属性和可配置项  
 使用 amis-widget 中的 registerAmisEditorPlugin 方法为自定义组件设置基本属性和可配置项，编辑器左侧组件面板会按照基本属性中的分类和排序展示自定义组件。
 
 其中 scaffold 中的数据会作为自定义组件初次添加到页面中的默认数据，panelControls 中的数据则会用于生产自定义组件的可配置项（右侧属性配置面板）。
@@ -123,14 +123,14 @@ registerAmisEditorPlugin(InfoCardPlugin, {
 export default InfoCardPlugin;
 ```
 
-##### 3.6 本地预览自定义组件内容  
+##### 步骤6：本地预览自定义组件内容  
 控制台输入：npm run preview 后，会自动打开浏览器，预览自定义组件内容。
 
 备注：  
 1、本地预览自定义组件前，请确认已执行过 npm install （确保构建需要的依赖已经安装）；  
 2、src/preview.js 中添加和使用当前开发中的自定义组件。  
 
-##### 3.7 在爱速搭中调试自定义组件
+##### 步骤7：在爱速搭中调试自定义组件
 > 可用于检验爱速搭页面编辑器（amis编辑器）是否能正常使用当前自定义组件
 
 控制台输入：npm run linkDebug 后，复制控制台输出的脚本地址：
@@ -142,7 +142,7 @@ export default InfoCardPlugin;
 在编辑器端使用和调试自定组件：
 ![image](/img/NPM组件扩展包/amis-npm-widget/linkDebug-editor.png)
 
-##### 3.8 发布自定义组件  
+##### 步骤8：发布自定义组件  
 1、发布前请先构建自定义组件输出文件，执行：npm run build2lib。  
 
 备注：构建文件默认存放在dist目录下。  
