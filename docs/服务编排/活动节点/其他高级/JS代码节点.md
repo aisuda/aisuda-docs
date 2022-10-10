@@ -69,34 +69,6 @@ module.exports = function (event, state) {
 };
 ```
 
-### 异步处理
-
-可以通过 async await 方式进行异步处理
-
-```javascript
-module.exports = async function (event, state) {
-  // 异步函数 demo
-  function delay(fn, time) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        fn();
-        resolve();
-      }, time);
-    });
-  }
-  // 执行异步方法
-  await delay(() => {
-    state.count = 10;
-  }, 1000);
-
-  // 直接配置输出结果
-  state.output = {
-    count: state.count
-  };
-  return state;
-};
-```
-
 ### 日志打印
 
 执行的结果可以再调试面板中的运行日志中进行查看，会将多个日志结果放到一个字符串数组中
@@ -110,7 +82,7 @@ module.﻿exports = async function (﻿event, state﻿) {
 
   return state
 }
-``` -->
+```
 
 
 ````
