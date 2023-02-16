@@ -20,4 +20,5 @@ id: 自定义组件如何对接amis事件动作
 ![image](/img/NPM组件扩展包/dispatch-custom-event.png)
 
 备注1：普通react自定义组件对接amis事件动作示例见 https://github.com/aisuda/react-custom-widget-template/commit/43c637b790ea2ee9f7ff6f8faf654cc82c602101；
+
 备注2：vue自定义组件无需设置ScopedContext，amis-widget会自动设置ScopedContext 【开发中，待发布】。
