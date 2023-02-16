@@ -24,13 +24,13 @@ id: 自定义组件如何对接amis事件动作
 备注2：vue自定义组件无需设置ScopedContext，amis-widget会自动设置ScopedContext，只需补充doAction方法，见[示例](https://github.com/aisuda/multiple-custom-widget-template/commit/65c6e8f6fc00cded77a8005ff416fdcc1a5b02fd)（需确保amis-widget版本为3.0.9或以上）。
 
 ### 三、对接amis事件动作注意事项
-1、自定义组件中添加的事件动作如果和amis通用事件一样，会被忽略（使用amis通用动作）。
-建议1: 自定义组件中避免设置和amis通用事件一样的actionEvent；
-建议2: 优化amis Action执行逻辑，存在componentId则优先使用组件渲染器事件；【[已优化](https://github.com/baidu/amis/pull/6199)】
+1、自定义组件中添加的事件动作如果和amis通用事件一样，会被忽略（使用amis通用动作）。  
+建议1: 自定义组件中避免设置和amis通用事件一样的actionEvent；  
+建议2: 优化amis Action执行逻辑，存在componentId则优先使用组件渲染器事件；【[已优化](https://github.com/baidu/amis/pull/6199)】  ∂∂∂
 
 2、触发广播事件时，需要设置 action.args.eventName 或 action.eventName，用于广播出去一个自定义组件；
 
-3、A组件在渲染时触发一个广播事件（比如：custom-widget-broadcast），B组件监听这个广播事件，如果B组件在A组件 之后渲染，则B组件会监听不到A组件的广播事件。
+3、A组件在渲染时触发一个广播事件（比如：custom-widget-broadcast），B组件监听这个广播事件，如果B组件在A组件 之后渲染，则B组件会监听不到A组件的广播事件。  
 建议：应避免在组件渲染时触发广播事件。
 
 4、自定义组件中可补充amis动作事件（新的通用动作），见[补充方法](https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/event-action#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%A8%E4%BD%9C)。
