@@ -28,7 +28,7 @@ id: 自定义组件如何对接amis事件动作
 建议1: 自定义组件中避免设置和amis通用事件一样的actionEvent；  
 建议2: 优化amis Action执行逻辑，存在componentId则优先使用组件渲染器事件；【[已优化](https://github.com/baidu/amis/pull/6199)】  
 
-2、触发广播事件时，需要设置 action.args.eventName 或 action.eventName，用于广播出去一个自定义组件；
+2、触发广播事件时（配置actionType: 'broadcast'），需要设置 action.args.eventName 或 action.eventName，用于广播出去一个自定义事件；
 
 3、A组件在渲染时触发一个广播事件（比如：custom-widget-broadcast），B组件监听这个广播事件，如果B组件在A组件 之后渲染，则B组件会监听不到A组件的广播事件。  
 建议：应避免在组件渲染时触发广播事件。
