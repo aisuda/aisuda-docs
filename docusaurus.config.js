@@ -78,6 +78,7 @@ module.exports = {
     ]
   ],
   plugins: [
+    'plugin-image-zoom',
     [
       require.resolve('@cmfcmf/docusaurus-search-local'),
       {
