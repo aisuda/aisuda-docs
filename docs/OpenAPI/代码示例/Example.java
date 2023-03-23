@@ -31,6 +31,7 @@ public class Example {
     private static final String COMPANY_KEY = "";
     private static final String APP_KEY = "";
     private static final String PRIVATE_KEY = "";
+    private static final String X_CLIENT_ID = "";
 
     public static void main(String[] args) {
         // 组织级别加密openapi
@@ -70,7 +71,7 @@ public class Example {
         HttpClient client = HttpClient.newBuilder().build();
 
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(HOST + path))
-                .header("Authorization", "Bearer " + token).build();
+                .headers("Authorization", "Bearer " + token,"x-client-id",X_CLIENT_ID).build();
 
         HttpResponse.BodyHandler<String> AS_STRING = HttpResponse.BodyHandlers.ofString();
         try {
