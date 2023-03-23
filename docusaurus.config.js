@@ -60,6 +60,16 @@ module.exports = {
     prism: {
       theme: lightCodeTheme,
       darkTheme: darkCodeTheme
+    },
+
+    zoom: {
+      background: {
+        light: 'rgb(50, 50, 50)',
+        dark: 'rgb(50, 50, 50)'
+      },
+      config: {
+        margin: 70
+      }
     }
   },
   presets: [
@@ -78,7 +88,7 @@ module.exports = {
     ]
   ],
   plugins: [
-    'plugin-image-zoom',
+    require.resolve('docusaurus-plugin-image-zoom'),
     [
       require.resolve('@cmfcmf/docusaurus-search-local'),
       {
