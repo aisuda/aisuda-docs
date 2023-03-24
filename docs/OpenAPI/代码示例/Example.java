@@ -31,6 +31,7 @@ public class Example {
     private static final String COMPANY_KEY = "";
     private static final String APP_KEY = "";
     private static final String PRIVATE_KEY = "";
+    // x-client-id 在设置完 openAPI key 后，会自动生成一个，复制即可
     private static final String X_CLIENT_ID = "";
 
     public static void main(String[] args) {
@@ -71,7 +72,7 @@ public class Example {
         HttpClient client = HttpClient.newBuilder().build();
 
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(HOST + path))
-                .headers("Authorization", "Bearer " + token,"x-client-id",X_CLIENT_ID).build();
+                .headers("Authorization", "Bearer " + token,"x-client-id", X_CLIENT_ID).build();
 
         HttpResponse.BodyHandler<String> AS_STRING = HttpResponse.BodyHandlers.ofString();
         try {
